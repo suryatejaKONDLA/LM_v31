@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="11.0.0-preview.1.26104.118" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="11.0.0-preview.1.26104.118" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CITL.Domain\CITL.Domain.csproj" />
+    <ProjectReference Include="..\CITL.SharedKernel\CITL.SharedKernel.csproj" />
+  </ItemGroup>
+
+</Project>

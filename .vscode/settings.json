@@ -1,0 +1,43 @@
+{
+  // ─── Copilot custom instructions ───────────────────────────
+  // Auto-load .github/copilot-instructions.md (always-on)
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+  // Auto-load .instructions.md files from .github/instructions/
+  "chat.instructionsFilesLocations": {
+    ".github/instructions": true
+  },
+  // Pattern-matched instructions auto-attach when editing matching files
+  "chat.includeApplyingInstructions": true,
+  // Allow instructions referencing other files via Markdown links
+  "chat.includeReferencedInstructions": true,
+  // Auto-load AGENTS.md (multi-agent compatibility)
+  "chat.useAgentsMdFile": true,
+  // Auto-load CLAUDE.md (Claude compatibility)
+  "chat.useClaudeMdFile": true,
+  // ─── Editor ────────────────────────────────────────────────
+  "editor.formatOnSave": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  // ─── TypeScript / React ────────────────────────────────────
+  // Use ESLint as the formatter for TS/TSX so Ctrl+K,D runs eslint --fix
+  // This ensures Allman braces and 4-space indent are applied on format.
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.tabSize": 4
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.tabSize": 4
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.tabSize": 4
+  },
+  "eslint.format.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  // ─── .NET / C# ────────────────────────────────────────────
+  "dotnet.defaultSolution": "CITL.slnx",
+  "omnisharp.enableEditorConfigSupport": true
+}

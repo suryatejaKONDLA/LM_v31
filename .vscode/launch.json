@@ -1,0 +1,74 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "CITL Full Stack",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "Build: API",
+      "program": "${workspaceFolder}/src/CITL.WebApi/bin/Debug/net11.0/CITL.WebApi.dll",
+      "cwd": "${workspaceFolder}/src/CITL.WebApi",
+      "console": "internalConsole",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "https://localhost:7001;http://localhost:5001"
+      },
+      "serverReadyAction": {
+        "action": "startDebugging",
+        "name": "CITL Frontend",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      },
+      "presentation": {
+        "order": 1
+      }
+    },
+    {
+      "name": "CITL API",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "Build: API",
+      "program": "${workspaceFolder}/src/CITL.WebApi/bin/Debug/net11.0/CITL.WebApi.dll",
+      "cwd": "${workspaceFolder}/src/CITL.WebApi",
+      "console": "internalConsole",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "https://localhost:7001;http://localhost:5001"
+      },
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+        "uriFormat": "%s/swagger/index.html"
+      },
+      "presentation": {
+        "order": 2
+      }
+    },
+    {
+      "name": "CITL Frontend",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "windows": {
+        "runtimeExecutable": "npm.cmd"
+      },
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--",
+        "--open"
+      ],
+      "cwd": "${workspaceFolder}/src/CITL.Web",
+      "presentation": {
+        "order": 3
+      }
+    },
+    {
+      "name": ".NET Core Attach",
+      "type": "coreclr",
+      "request": "attach",
+      "presentation": {
+        "order": 4
+      }
+    }
+  ]
+}

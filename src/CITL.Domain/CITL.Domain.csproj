@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\CITL.SharedKernel\CITL.SharedKernel.csproj" />
+  </ItemGroup>
+
+</Project>

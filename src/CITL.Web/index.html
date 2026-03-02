@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+
+    <!--
+    viewport-fit=cover  → content fills notched / punch-hole screens (iPhone X+, Android)
+    minimum-scale=1.0   → prevents browser from shrinking below 100 %
+    maximum-scale=5.0   → still allows pinch-zoom for accessibility
+  -->
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+
+    <!-- IE / legacy corporate browser compatibility -->
+    <meta http-equiv="X-UA-Compatible"
+      content="IE=edge" />
+
+    <!--
+    color-scheme → browser renders native UI controls (scrollbars, inputs, select) in the
+    correct theme instantly — eliminates the white-flash on dark-mode devices
+  -->
+    <meta name="color-scheme"
+      content="light dark" />
+
+    <title>ENTERPRISE PORTAL</title>
+
+    <!-- ── SEO ──────────────────────────────────────────────────── -->
+    <meta name="description"
+      content="Next-Generation Enterprise Resource Planning (ERP) System tailored for seamless business management and data analytics." />
+    <meta name="keywords"
+      content="ERP, Enterprise, Dashboard, React, Business Intelligence, Management Portal" />
+    <meta name="author"
+      content="Cradle Information Technologies Pvt Ltd" />
+    <meta name="robots"
+      content="index, follow" />
+    <meta name="referrer"
+      content="strict-origin-when-cross-origin" />
+
+    <!--
+    format-detection → disables auto phone / email / address linkification on iOS / Android.
+    Prevents unexpected layout reflows caused by the browser wrapping plain text in <a> tags.
+  -->
+    <meta name="format-detection"
+      content="telephone=no, email=no, address=no" />
+
+    <!-- ── Open Graph ───────────────────────────────────────────── -->
+    <meta property="og:type"
+      content="website" />
+    <meta property="og:title"
+      content="Enterprise Portal" />
+    <meta property="og:description"
+      content="Secure, scalable, and intelligent ERP solutions for modern enterprises." />
+
+    <!-- ── Theme color — dual declaration for light + dark ─────── -->
+    <!--   light: brand blue  |  dark: app shell dark background    -->
+    <meta name="theme-color"
+      content="#2563eb"
+      media="(prefers-color-scheme: light)" />
+    <meta name="theme-color"
+      content="#0b0c15"
+      media="(prefers-color-scheme: dark)" />
+    <meta name="msapplication-navbutton-color"
+      content="#2563eb" />
+    <meta name="msapplication-TileColor"
+      content="#2563eb" />
+
+    <!-- ── PWA / Mobile web-app ─────────────────────────────────── -->
+    <meta name="mobile-web-app-capable"
+      content="yes" />
+    <meta name="apple-mobile-web-app-capable"
+      content="yes" />
+    <meta name="apple-mobile-web-app-title"
+      content="CITL Portal" />
+    <!--
+    black-translucent → status bar overlaps the app content so the viewport is truly full-screen;
+    combined with viewport-fit=cover this removes the safe-area letterbox on notched iPhones
+  -->
+    <meta name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent" />
+    <meta name="apple-touch-fullscreen"
+      content="yes" />
+    <meta name="HandheldFriendly"
+      content="true" />
+    <meta name="MobileOptimized"
+      content="width" />
+
+    <!-- ── Icons ────────────────────────────────────────────────── -->
+    <link rel="icon"
+      type="image/svg+xml"
+      href="/vite.svg" />
+
+    <!-- ── Fonts ─────────────────────────────────────────────────
+    1. Preload the body font (Outfit-Medium) so the loader text renders
+       immediately — eliminates FOUT (Flash of Unstyled Text).
+    2. fonts.css declares all other @font-face rules lazily.
+  -->
+    <link rel="preload"
+      href="/fonts/Outfit-Medium.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous" />
+    <link rel="stylesheet"
+      href="/fonts.css" />
+
+    <!-- ── Performance hints ────────────────────────────────────── -->
+    <link rel="preconnect"
+      href="https://www.citl.co.in"
+      crossorigin />
+    <link rel="dns-prefetch"
+      href="https://www.citl.co.in" />
+
+    <!-- App Loader Critical CSS - Inlined for faster FCP -->
+    <style>
+      :root {
+        --l-bg: #eef2f6;
+        --l-ring: #cbd5e1;
+        --l-core: #2563eb;
+        --l-text: #475569;
+        --d-bg: #0b0c15;
+        --d-ring: rgba(255, 255, 255, 0.1);
+        --d-core: #00f2ff;
+        --d-glow: rgba(0, 242, 255, 0.6);
+        --d-text: #94a3b8
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Outfit', sans-serif
+      }
+
+      /* Prevent black flash after loader removal — set body bg before React paints */
+      html.theme-light body {
+        background-color: #eef2f6
+      }
+
+      html.theme-dark body {
+        background-color: #141414
+      }
+
+      * {
+        scrollbar-width: thin
+      }
+
+      *::-webkit-scrollbar {
+        width: 6px;
+        height: 6px
+      }
+
+      *::-webkit-scrollbar-thumb {
+        border-radius: 10px
+      }
+
+      html.theme-light,
+      html.theme-light * {
+        scrollbar-color: rgb(0 0 0 / .2) #ffffff !important
+      }
+
+      html.theme-light ::-webkit-scrollbar-track {
+        background: #ffffff !important
+      }
+
+      html.theme-light ::-webkit-scrollbar-thumb {
+        background: rgb(0 0 0 / .2) !important
+      }
+
+      html.theme-light ::-webkit-scrollbar-thumb:hover {
+        background: rgb(0 0 0 / .35) !important
+      }
+
+      html.theme-dark,
+      html.theme-dark * {
+        scrollbar-color: rgb(255 255 255 / .08) rgb(15 15 20 / .5) !important
+      }
+
+      html.theme-dark ::-webkit-scrollbar-track {
+        background: rgb(15 15 20 / .5) !important
+      }
+
+      html.theme-dark ::-webkit-scrollbar-thumb {
+        background: rgb(255 255 255 / .08) !important
+      }
+
+      html.theme-dark ::-webkit-scrollbar-thumb:hover {
+        background: rgb(255 255 255 / .15) !important
+      }
+
+      #root {
+        min-height: 100vh
+      }
+
+      .app-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.6s ease-out
+      }
+
+      .app-loader.light {
+        background: var(--l-bg);
+        background: radial-gradient(circle at center, #ffffff 0%, #eef2f6 100%);
+        color: var(--l-text)
+      }
+
+      .app-loader.dark {
+        background: var(--d-bg);
+        background: radial-gradient(circle at center, #1b1e2b 0%, #0b0c15 100%);
+        color: var(--d-text)
+      }
+
+      .gyro-container {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        perspective: 800px;
+        transform-style: preserve-3d;
+        margin-bottom: 40px
+      }
+
+      .ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 4px solid #fff0;
+        box-sizing: border-box;
+        transform-style: preserve-3d
+      }
+
+      .app-loader.light .ring {
+        border-color: var(--l-ring);
+        border-top-color: var(--l-core);
+        box-shadow: 0 4px 10px rgb(0 0 0 / .05)
+      }
+
+      .app-loader.dark .ring {
+        border-color: var(--d-ring);
+        border-top-color: var(--d-core);
+        border-bottom-color: var(--d-core);
+        box-shadow: 0 0 15px var(--d-glow), inset 0 0 10px var(--d-glow)
+      }
+
+      .core {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        background: var(--l-core);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 20px var(--l-core);
+        animation: pulse 2s ease-in-out infinite
+      }
+
+      .app-loader.dark .core {
+        background: #fff;
+        box-shadow: 0 0 30px var(--d-core), 0 0 60px var(--d-core)
+      }
+
+      .ring-1 {
+        animation: spinX 2s cubic-bezier(.68, -.55, .265, 1.55) infinite
+      }
+
+      .ring-2 {
+        width: 80%;
+        height: 80%;
+        top: 10%;
+        left: 10%;
+        animation: spinY 2.5s cubic-bezier(.68, -.55, .265, 1.55) infinite
+      }
+
+      .ring-3 {
+        width: 60%;
+        height: 60%;
+        top: 20%;
+        left: 20%;
+        animation: spinZ 3s linear infinite
+      }
+
+      @keyframes spinX {
+        0% {
+          transform: rotateX(0deg) rotateY(0deg)
+        }
+
+        100% {
+          transform: rotateX(360deg) rotateY(180deg)
+        }
+      }
+
+      @keyframes spinY {
+        0% {
+          transform: rotateY(0deg) rotateZ(0deg)
+        }
+
+        100% {
+          transform: rotateY(360deg) rotateZ(90deg)
+        }
+      }
+
+      @keyframes spinZ {
+        0% {
+          transform: rotateZ(0deg)
+        }
+
+        100% {
+          transform: rotateZ(360deg)
+        }
+      }
+
+      @keyframes pulse {
+
+        0%,
+        100% {
+          transform: translate(-50%, -50%) scale(.8);
+          opacity: .8
+        }
+
+        50% {
+          transform: translate(-50%, -50%) scale(1.2);
+          opacity: 1
+        }
+      }
+
+      .text-container {
+        height: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        perspective: 400px
+      }
+
+      .status-text {
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        animation: textBlur 0.8s ease-out forwards;
+        opacity: 0
+      }
+
+      .progress-bar-bg {
+        width: 200px;
+        height: 2px;
+        background: rgb(128 128 128 / .2);
+        margin-top: 16px;
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative
+      }
+
+      .progress-bar-fill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 30%;
+        background: var(--l-core);
+        box-shadow: 0 0 10px var(--l-core);
+        animation: progressSlide 2s ease-in-out infinite
+      }
+
+      .app-loader.dark .progress-bar-fill {
+        background: var(--d-core);
+        box-shadow: 0 0 15px var(--d-core)
+      }
+
+      @keyframes progressSlide {
+        0% {
+          left: -40%;
+          width: 20%
+        }
+
+        50% {
+          left: 30%;
+          width: 60%
+        }
+
+        100% {
+          left: 110%;
+          width: 20%
+        }
+      }
+
+      @keyframes textBlur {
+        0% {
+          filter: blur(10px);
+          opacity: 0;
+          transform: translateY(10px)
+        }
+
+        100% {
+          filter: blur(0);
+          opacity: .8;
+          transform: translateY(0)
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root">
+      <div id="app-loader"
+        class="app-loader">
+
+        <div class="gyro-container">
+          <div class="ring ring-1"></div>
+          <div class="ring ring-2"></div>
+          <div class="ring ring-3"></div>
+          <div class="core"></div>
+        </div>
+
+        <div class="text-container">
+          <div id="loader-text"
+            class="status-text">INITIALIZING...</div>
+        </div>
+
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+      (function ()
+      {
+        // 1. Detect Theme from localStorage
+        var mode = localStorage.getItem("citl-theme-mode");
+        var theme = mode === "dark" ? "dark" : "light";
+        var loader = document.getElementById("app-loader");
+        var textEl = document.getElementById("loader-text");
+        document.documentElement.classList.add("theme-" + theme);
+
+        loader.classList.add(theme);
+
+        // 2. Get primary color from localStorage or use default
+        var primaryColor = localStorage.getItem("citl-primary-color") || "#ff0000ff";
+
+        // 3. Apply dynamic primary color to CSS variables
+        document.documentElement.style.setProperty('--l-core', primaryColor);
+        document.documentElement.style.setProperty('--d-core', primaryColor);
+
+        // 2. Realistic "Programming" Jargon
+        var messages = [
+          "Resolving Dependencies...",
+          "Handshaking with Server...",
+          "Hydrating Application...",
+          "Verifying Security Token...",
+          "Allocating Virtual Memory...",
+          "Compiling Assets...",
+          "Launching Dashboard..."
+        ];
+
+        var index = 0;
+
+        // Function to swap text with a fade animation
+        function updateText()
+        {
+          if (!loader)
+          {
+            return;
+          }
+
+          // Reset animation
+          textEl.style.animation = 'none';
+          textEl.offsetHeight; /* trigger reflow */
+          textEl.style.animation = 'textBlur 0.8s ease-out forwards';
+
+          textEl.textContent = messages[ index ];
+          index = (index + 1) % messages.length;
+        }
+
+        // Initial Call
+        updateText();
+
+        // Cycle messages every 1.5 seconds
+        var interval = setInterval(updateText, 1500);
+
+        // 3. React Cleanup Function
+        window.removeAppLoader = function ()
+        {
+          clearInterval(interval);
+          loader.style.opacity = "0";
+          loader.style.transform = "scale(0.9)"; // Subtle shrink effect
+          setTimeout(function ()
+          {
+            if (loader.parentNode)
+            {
+              loader.parentNode.removeChild(loader);
+            }
+          }, 600);
+        };
+      })();
+    </script>
+
+    <script type="module"
+      src="/src/Main.tsx"></script>
+  </body>
+
+</html>

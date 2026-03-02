@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- No project references — SharedKernel is the innermost layer -->
+
+</Project>

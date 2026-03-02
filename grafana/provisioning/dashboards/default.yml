@@ -1,0 +1,13 @@
+apiVersion: 1
+
+providers:
+  - name: "CITL"
+    orgId: 1
+    folder: "CITL"
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 5
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards/citl
+      foldersFromFilesStructure: false

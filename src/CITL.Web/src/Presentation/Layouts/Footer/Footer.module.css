@@ -1,0 +1,7 @@
+/* Footer — company info bar */
+
+.footer {
+    padding: 8px 24px;
+    text-align: center;
+    transition: background-color 0.15s ease-out, border-color 0.15s ease-out;
+}

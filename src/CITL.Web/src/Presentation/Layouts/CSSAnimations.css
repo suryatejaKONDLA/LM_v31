@@ -1,0 +1,59 @@
+/* ============================================
+   CSS ANIMATIONS - Native, zero JS runtime
+   GPU-accelerated via will-change
+   ============================================ */
+
+/* ── Entrance animations (MainLayout elements) ── */
+
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-300px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromTop {
+    from {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromBottom {
+    from {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.entrance-sidebar {
+    animation: slideInFromLeft 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    will-change: transform, opacity;
+}
+
+.entrance-header {
+    animation: slideInFromTop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    will-change: transform, opacity;
+}
+
+.entrance-footer {
+    animation: slideInFromBottom 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    will-change: transform, opacity;
+}
+
+/* ── Page transitions ── removed — no route animation */

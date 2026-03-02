@@ -1,0 +1,42 @@
+/* ConnectionStatus — slim notification bar (hidden when connected) */
+
+.bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 4px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    text-align: center;
+    user-select: none;
+    z-index: 1100;
+    animation: slideDown 0.25s ease-out;
+}
+
+.warn {
+    background: #fffbe6;
+    color: #d48806;
+    border-bottom: 1px solid #ffe58f;
+}
+
+.error {
+    background: #fff2f0;
+    color: #cf1322;
+    border-bottom: 1px solid #ffccc7;
+    cursor: pointer;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

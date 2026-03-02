@@ -1,0 +1,407 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   🔤 LOCAL FONTS - Performance optimized, no external requests
+   Fonts downloaded from @fontsource packages and Google Fonts
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Fira Code - Monospace */
+@font-face {
+   font-family: 'Fira Code';
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+   src: url(./fonts/FiraCode-Regular.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Fira Code';
+   font-style: normal;
+   font-weight: 500;
+   font-display: swap;
+   src: url(./fonts/FiraCode-Medium.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Fira Code';
+   font-style: normal;
+   font-weight: 700;
+   font-display: swap;
+   src: url(./fonts/FiraCode-Bold.woff2) format('woff2');
+}
+
+/* Inter */
+@font-face {
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 300;
+   font-display: swap;
+   src: url(./fonts/Inter-Light.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+   src: url(./fonts/Inter-Regular.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 500;
+   font-display: swap;
+   src: url(./fonts/Inter-Medium.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 600;
+   font-display: swap;
+   src: url(./fonts/Inter-SemiBold.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 700;
+   font-display: swap;
+   src: url(./fonts/Inter-Bold.woff2) format('woff2');
+}
+
+/* Lato */
+@font-face {
+   font-family: 'Lato';
+   font-style: normal;
+   font-weight: 300;
+   font-display: swap;
+   src: url(./fonts/Lato-Light.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Lato';
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+   src: url(./fonts/Lato-Regular.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Lato';
+   font-style: normal;
+   font-weight: 700;
+   font-display: swap;
+   src: url(./fonts/Lato-Bold.woff2) format('woff2');
+}
+
+/* Montserrat */
+@font-face {
+   font-family: 'Montserrat';
+   font-style: normal;
+   font-weight: 300;
+   font-display: swap;
+   src: url(./fonts/Montserrat-Light.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Montserrat';
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+   src: url(./fonts/Montserrat-Regular.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Montserrat';
+   font-style: normal;
+   font-weight: 500;
+   font-display: swap;
+   src: url(./fonts/Montserrat-Medium.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Montserrat';
+   font-style: normal;
+   font-weight: 600;
+   font-display: swap;
+   src: url(./fonts/Montserrat-SemiBold.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Montserrat';
+   font-style: normal;
+   font-weight: 700;
+   font-display: swap;
+   src: url(./fonts/Montserrat-Bold.woff2) format('woff2');
+}
+
+/* Noto Sans */
+@font-face {
+   font-family: 'Noto Sans';
+   font-style: normal;
+   font-weight: 300;
+   font-display: swap;
+   src: url(./fonts/NotoSans-Light.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Noto Sans';
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+   src: url(./fonts/NotoSans-Regular.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Noto Sans';
+   font-style: normal;
+   font-weight: 500;
+   font-display: swap;
+   src: url(./fonts/NotoSans-Medium.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Noto Sans';
+   font-style: normal;
+   font-weight: 600;
+   font-display: swap;
+   src: url(./fonts/NotoSans-SemiBold.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Noto Sans';
+   font-style: normal;
+   font-weight: 700;
+   font-display: swap;
+   src: url(./fonts/NotoSans-Bold.woff2) format('woff2');
+}
+
+/* Nunito */
+@font-face {
+   font-family: 'Nunito';
+   font-style: normal;
+   font-weight: 300;
+   font-display: swap;
+   src: url(./fonts/Nunito-Light.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Nunito';
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+   src: url(./fonts/Nunito-Regular.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Nunito';
+   font-style: normal;
+   font-weight: 500;
+   font-display: swap;
+   src: url(./fonts/Nunito-Medium.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Nunito';
+   font-style: normal;
+   font-weight: 600;
+   font-display: swap;
+   src: url(./fonts/Nunito-SemiBold.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Nunito';
+   font-style: normal;
+   font-weight: 700;
+   font-display: swap;
+   src: url(./fonts/Nunito-Bold.woff2) format('woff2');
+}
+
+/* Open Sans */
+@font-face {
+   font-family: 'Open Sans';
+   font-style: normal;
+   font-weight: 300;
+   font-display: swap;
+   src: url(./fonts/OpenSans-Light.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Open Sans';
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+   src: url(./fonts/OpenSans-Regular.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Open Sans';
+   font-style: normal;
+   font-weight: 500;
+   font-display: swap;
+   src: url(./fonts/OpenSans-Medium.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Open Sans';
+   font-style: normal;
+   font-weight: 600;
+   font-display: swap;
+   src: url(./fonts/OpenSans-SemiBold.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Open Sans';
+   font-style: normal;
+   font-weight: 700;
+   font-display: swap;
+   src: url(./fonts/OpenSans-Bold.woff2) format('woff2');
+}
+
+/* Outfit - Default font */
+@font-face {
+   font-family: 'Outfit';
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+   src: url(./fonts/Outfit-Medium.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Outfit';
+   font-style: normal;
+   font-weight: 300;
+   font-display: swap;
+   src: url(./fonts/Outfit-Light.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Outfit';
+   font-style: normal;
+   font-weight: 500;
+   font-display: swap;
+   src: url(./fonts/Outfit-Medium.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Outfit';
+   font-style: normal;
+   font-weight: 700;
+   font-display: swap;
+   src: url(./fonts/Outfit-Bold.woff2) format('woff2');
+}
+
+/* Poppins */
+@font-face {
+   font-family: 'Poppins';
+   font-style: normal;
+   font-weight: 300;
+   font-display: swap;
+   src: url(./fonts/Poppins-Light.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Poppins';
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+   src: url(./fonts/Poppins-Regular.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Poppins';
+   font-style: normal;
+   font-weight: 500;
+   font-display: swap;
+   src: url(./fonts/Poppins-Medium.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Poppins';
+   font-style: normal;
+   font-weight: 600;
+   font-display: swap;
+   src: url(./fonts/Poppins-SemiBold.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Poppins';
+   font-style: normal;
+   font-weight: 700;
+   font-display: swap;
+   src: url(./fonts/Poppins-Bold.woff2) format('woff2');
+}
+
+/* Space Grotesk */
+@font-face {
+   font-family: 'Space Grotesk';
+   font-style: normal;
+   font-weight: 300;
+   font-display: swap;
+   src: url(./fonts/SpaceGrotesk-Light.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Space Grotesk';
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+   src: url(./fonts/SpaceGrotesk-Regular.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Space Grotesk';
+   font-style: normal;
+   font-weight: 500;
+   font-display: swap;
+   src: url(./fonts/SpaceGrotesk-Medium.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Space Grotesk';
+   font-style: normal;
+   font-weight: 600;
+   font-display: swap;
+   src: url(./fonts/SpaceGrotesk-SemiBold.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Space Grotesk';
+   font-style: normal;
+   font-weight: 700;
+   font-display: swap;
+   src: url(./fonts/SpaceGrotesk-Bold.woff2) format('woff2');
+}
+
+/* Roboto */
+@font-face {
+   font-family: 'Roboto';
+   font-style: normal;
+   font-weight: 300;
+   font-display: swap;
+   src: url(./fonts/Roboto-Light.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Roboto';
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+   src: url(./fonts/Roboto-Regular.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Roboto';
+   font-style: normal;
+   font-weight: 500;
+   font-display: swap;
+   src: url(./fonts/Roboto-Medium.woff2) format('woff2');
+}
+
+@font-face {
+   font-family: 'Roboto';
+   font-style: normal;
+   font-weight: 700;
+   font-display: swap;
+   src: url(./fonts/Roboto-Bold.woff2) format('woff2');
+}

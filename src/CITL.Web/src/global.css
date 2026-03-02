@@ -1,0 +1,42 @@
+/* ──────────────────────────────────────────────────────────────
+ * global.css — Minimal global styles.
+ * Only active side-effects: theme transition smoothing,
+ * autofill color suppression.
+ * ────────────────────────────────────────────────────────────── */
+
+/* ── Autofill override ─────────────────────────────────────────
+ * Chrome/Edge force a grey/yellow background on autofilled inputs.
+ * Mask it with the Ant Design container background so it matches
+ * the input's own background in both light and dark themes. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+select:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--ant-color-bg-container) inset !important;
+    box-shadow: 0 0 0 1000px var(--ant-color-bg-container) inset !important;
+    -webkit-text-fill-color: var(--ant-color-text) !important;
+    color: var(--ant-color-text) !important;
+    border-color: var(--ant-color-border) !important;
+    transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Smooth color transitions while the theme ripple is active.
+ * Applied for ~750ms via ThemeToggleButton adding/removing
+ * the `theme-transitioning` class on <body>. */
+.theme-transitioning,
+.theme-transitioning * {
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        fill 0.3s ease,
+        stroke 0.3s ease !important;
+}

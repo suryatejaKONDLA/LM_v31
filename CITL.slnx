@@ -1,0 +1,21 @@
+<Solution>
+
+  <Folder Name="/src/">
+    <Project Path="src/CITL.SharedKernel/CITL.SharedKernel.csproj" />
+    <Project Path="src/CITL.Domain/CITL.Domain.csproj" />
+    <Project Path="src/CITL.Application/CITL.Application.csproj" />
+    <Project Path="src/CITL.Infrastructure/CITL.Infrastructure.csproj" />
+    <Project Path="src/CITL.WebApi/CITL.WebApi.csproj" />
+    <Project Path="src/CITL.Web/CITL.Web.esproj">
+      <Build />
+      <Deploy />
+    </Project>
+  </Folder>
+
+  <Folder Name="/tests/">
+    <Project Path="tests/CITL.Application.Tests/CITL.Application.Tests.csproj" />
+    <Project Path="tests/CITL.Infrastructure.Tests/CITL.Infrastructure.Tests.csproj" />
+    <Project Path="tests/CITL.WebApi.Tests/CITL.WebApi.Tests.csproj" />
+  </Folder>
+
+</Solution>

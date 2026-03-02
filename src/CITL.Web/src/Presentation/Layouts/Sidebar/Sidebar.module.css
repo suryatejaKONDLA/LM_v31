@@ -1,0 +1,76 @@
+/* ============================================
+   Sidebar — persistent navigation panel
+   300px expanded, 80px collapsed, sticky
+   ============================================ */
+
+.sider {
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    will-change: width;
+
+    transition:
+        width 0.25s cubic-bezier(0.2, 0, 0, 1),
+        min-width 0.25s cubic-bezier(0.2, 0, 0, 1),
+        max-width 0.25s cubic-bezier(0.2, 0, 0, 1),
+        background-color 0.15s ease-out,
+        border-color 0.15s ease-out !important;
+}
+
+/* Scrollbar — Webkit */
+.sider::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.sider::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sider::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+}
+
+/* Logo section at top */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    height: 72px;
+    flex-shrink: 0;
+    overflow: hidden;
+    transition: padding 0.25s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.logoCollapsed {
+    composes: logo;
+    justify-content: center;
+    padding: 16px 0;
+}
+
+/* Scrollable menu wrapper */
+.menuWrapper {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Drawer header */
+.drawerHeader {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Sidebar loading */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}

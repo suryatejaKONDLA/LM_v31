@@ -1,0 +1,247 @@
+/* ──────────────────────────────────────────────────────────────
+ * Login.module.css — Zero-runtime styles for the Login page.
+ * Compiled at build time by Vite — no JS overhead at runtime.
+ * ────────────────────────────────────────────────────────────── */
+
+/* ── Page shell ──────────────────────────────────────────────── */
+.page {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    overflow: hidden;
+    font-family: "Outfit", sans-serif;
+    position: relative;
+}
+
+/* ── Left panel — background visual ─────────────────────────── */
+.leftPanel {
+    flex: 1.6;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px;
+    transition:
+        background-color 0.6s ease-in-out;
+}
+
+.leftPanel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.15) 60%, transparent 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.leftPanel.logoMode {
+    background-size: contain;
+}
+
+.leftPanel.logoMode::before {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 900px) {
+    .leftPanel {
+        display: none;
+    }
+}
+
+/* ── Right panel — form area ─────────────────────────────────── */
+.rightPanel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    position: relative;
+    z-index: 2;
+    isolation: isolate;
+    transition: background-color 0.4s ease, color 0.4s ease;
+    overflow-y: auto;
+}
+
+.rightPanel.light {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.rightPanel.dark {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+@media (max-width: 900px) {
+    .rightPanel {
+        padding: 16px 20px;
+        overflow-y: hidden;
+    }
+}
+
+/* ── Form wrapper ────────────────────────────────────────────── */
+.formWrapper {
+    width: 100%;
+    max-width: 400px;
+}
+
+@media (max-width: 900px) {
+    .formWrapper {
+        max-width: 100%;
+    }
+}
+
+/* ── Content layer (overlays on left panel) ──────────────────── */
+.contentLayer {
+    position: relative;
+    z-index: 2;
+}
+
+/* ── Glass card (contact info, branding) ─────────────────────── */
+.glassCard {
+    background: rgba(20, 20, 20, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 24px 30px;
+    border-radius: 20px;
+    max-width: 420px;
+    color: white;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 600px) {
+    .glassCard {
+        padding: 16px 20px;
+        border-radius: 14px;
+        max-width: 100%;
+    }
+}
+
+/* ── Badge / tag ─────────────────────────────────────────────── */
+.secureBadge {
+    display: inline-block;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 900px) {
+    .secureBadge {
+        margin-bottom: 10px;
+    }
+}
+
+/* ── Mobile branding bar ─────────────────────────────────────── */
+.mobileBranding {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    min-width: 0;
+    flex: 1;
+}
+
+.mobileBranding.light {
+    background: rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.mobileBranding.dark {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ── Contact row ─────────────────────────────────────────────── */
+.contactRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.contactLink {
+    text-decoration: none;
+    color: inherit;
+    font-family: monospace;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* ── CAPTCHA container ───────────────────────────────────────── */
+.captchaBox {
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.captchaImage {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.captchaWarning {
+    margin-top: 8px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ── Entrance animations ─────────────────────────────────────── */
+@keyframes slideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeScale {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animSlideLeft {
+    animation: slideLeft 0.6s ease-out both;
+}
+
+.animSlideUp {
+    animation: slideUp 0.6s 0.2s ease-out both;
+}
+
+.animFadeScale {
+    animation: fadeScale 0.5s ease-out both;
+}

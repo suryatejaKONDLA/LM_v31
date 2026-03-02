@@ -1,0 +1,53 @@
+# =============================================================================
+# =============================================================================
+# CITL — Docker Compose (Infrastructure Services)
+# The app runs directly via `dotnet run` — only infrastructure is containerized.
+#
+# Stack: Grafana LGTM (Loki + Tempo + Prometheus + OTel Collector) + Redis
+#
+# Usage:
+#   docker compose up -d          → start all services
+#   docker compose down           → stop all services
+#   docker compose logs grafana   → view Grafana logs
+#   docker compose logs redis     → view Redis logs
+#
+# Endpoints:
+#   Grafana Dashboard : http://localhost:3000 (admin / admin)
+#   OTLP gRPC         : http://localhost:4317 (traces, metrics, logs)
+#   OTLP HTTP         : http://localhost:4318 (traces, metrics, logs)
+#   Redis             : localhost:6379
+# =============================================================================
+# =============================================================================
+
+services:
+
+  grafana:
+    image: grafana/otel-lgtm:latest
+    container_name: citl-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "${GF_ADMIN_PASSWORD:-admin}"
+    ports:
+      - "3000:3000"    # Grafana UI
+      - "4317:4317"    # OTLP gRPC receiver
+      - "4318:4318"    # OTLP HTTP receiver
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning/dashboards:/otel-lgtm/grafana/conf/provisioning/dashboards
+      - ./grafana/dashboards:/var/lib/grafana/dashboards/citl
+
+  redis:
+    image: redis:7-alpine
+    container_name: citl-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"    # Redis default port
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+
+volumes:
+  grafana-data:
+    driver: local
+  redis-data:
+    driver: local

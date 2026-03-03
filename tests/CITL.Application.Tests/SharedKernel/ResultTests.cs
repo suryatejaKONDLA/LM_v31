@@ -46,7 +46,7 @@ public sealed class ResultTests
         // Act & Assert
         Assert.Throws<ArgumentException>(() =>
         {
-            _ = Result.Failure(Error.None); // Error.None on a failure result
+            Result.Failure(Error.None); // Error.None on a failure result
         });
     }
 

@@ -131,7 +131,7 @@ public sealed class RoleMasterServiceTests
     {
         // Arrange
         _cacheService.GetAsync<RoleResponse>(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns((RoleResponse?)null);
+            .Returns(default(RoleResponse?));
         _repository.GetByIdAsync(1, Arg.Any<CancellationToken>()).Returns(SampleRole);
 
         // Act
@@ -149,8 +149,8 @@ public sealed class RoleMasterServiceTests
     {
         // Arrange
         _cacheService.GetAsync<RoleResponse>(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns((RoleResponse?)null);
-        _repository.GetByIdAsync(99, Arg.Any<CancellationToken>()).Returns((RoleResponse?)null);
+            .Returns(default(RoleResponse?));
+        _repository.GetByIdAsync(99, Arg.Any<CancellationToken>()).Returns(default(RoleResponse?));
 
         // Act
         var result = await _service.GetByIdAsync(99, CancellationToken.None);

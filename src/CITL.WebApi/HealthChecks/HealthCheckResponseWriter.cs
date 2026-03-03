@@ -30,7 +30,7 @@ internal static class HealthCheckResponseWriter
             Status = report.Status.ToString(),
             TotalDurationMs = report.TotalDuration.TotalMilliseconds,
             Timestamp = DateTime.UtcNow,
-            Services = report.Entries.Select(entry => new ServiceHealthEntry
+            Services = [.. report.Entries.Select(entry => new ServiceHealthEntry
             {
                 Name = entry.Key,
                 Status = entry.Value.Status.ToString(),
@@ -38,9 +38,9 @@ internal static class HealthCheckResponseWriter
                 DurationMs = entry.Value.Duration.TotalMilliseconds,
                 Error = entry.Value.Exception?.Message,
                 Data = entry.Value.Data.Count > 0
-                    ? entry.Value.Data.ToDictionary<KeyValuePair<string, object>, string, object?>(d => d.Key, d => d.Value)
+                    ? entry.Value.Data.ToDictionary(d => d.Key, d => (object?)d.Value)
                     : null
-            }).ToList()
+            })]
         };
 
         // Set HTTP status code based on overall health

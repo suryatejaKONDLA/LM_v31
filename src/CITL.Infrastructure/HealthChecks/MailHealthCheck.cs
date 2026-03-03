@@ -55,15 +55,12 @@ internal sealed class MailHealthCheck(
             {
                 SmtpConfigRow? smtpConfig;
 
-                var connection = new SqlConnection(connectionString);
-                await using (connection.ConfigureAwait(false))
-                {
-                    await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
 
-                    smtpConfig = await connection.QuerySingleOrDefaultAsync<SmtpConfigRow>(
-                        new CommandDefinition(SmtpConfigSql, cancellationToken: cancellationToken))
-                        .ConfigureAwait(false);
-                }
+                smtpConfig = await connection.QuerySingleOrDefaultAsync<SmtpConfigRow>(
+                    new CommandDefinition(SmtpConfigSql, cancellationToken: cancellationToken))
+                    .ConfigureAwait(false);
 
                 if (smtpConfig is null)
                 {

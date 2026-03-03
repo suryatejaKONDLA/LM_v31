@@ -207,7 +207,7 @@ public sealed class AuthenticationServiceTests
 
         _authRepository
             .GetUserProfileAsync(TestUser, Arg.Any<CancellationToken>())
-            .Returns((UserProfile?)null);
+            .Returns(default(UserProfile?));
 
         // Act
         var result = await _sut.LoginAsync(CreateLoginRequest(), TenantId, CancellationToken.None);
@@ -351,7 +351,7 @@ public sealed class AuthenticationServiceTests
 
         _authRepository
             .GetUserProfileAsync(TestUser, Arg.Any<CancellationToken>())
-            .Returns((UserProfile?)null);
+            .Returns(default(UserProfile?));
 
         // Act
         var result = await _sut.RefreshTokenAsync(request, TenantId, CancellationToken.None);

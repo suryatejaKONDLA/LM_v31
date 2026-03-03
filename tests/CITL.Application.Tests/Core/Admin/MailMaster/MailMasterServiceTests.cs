@@ -144,7 +144,7 @@ public sealed class MailMasterServiceTests
     {
         // Arrange
         _cacheService.GetAsync<MailMasterResponse>(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns((MailMasterResponse?)null);
+            .Returns(default(MailMasterResponse?));
         _repository.GetByIdAsync(1, Arg.Any<CancellationToken>()).Returns(SampleMail);
 
         // Act
@@ -161,8 +161,8 @@ public sealed class MailMasterServiceTests
     {
         // Arrange
         _cacheService.GetAsync<MailMasterResponse>(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns((MailMasterResponse?)null);
-        _repository.GetByIdAsync(99, Arg.Any<CancellationToken>()).Returns((MailMasterResponse?)null);
+            .Returns(default(MailMasterResponse?));
+        _repository.GetByIdAsync(99, Arg.Any<CancellationToken>()).Returns(default(MailMasterResponse?));
 
         // Act
         var result = await _service.GetByIdAsync(99, CancellationToken.None);

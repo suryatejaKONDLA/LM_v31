@@ -30,8 +30,15 @@ export const PasswordPatternMessage = "Password must contain uppercase, lowercas
  */
 export function generateStrongPassword(length = 16): string
 {
+    const randomIndex = (max: number): number =>
+    {
+        const array = new Uint32Array(1);
+        crypto.getRandomValues(array);
+        return array[0]! % max;
+    };
+
     const randomChar = (chars: string): string =>
-        chars.charAt(Math.floor(Math.random() * chars.length));
+        chars.charAt(randomIndex(chars.length));
 
     const required = [
         randomChar(Uppercase),
@@ -48,7 +55,7 @@ export function generateStrongPassword(length = 16): string
     // Fisher-Yates shuffle
     for (let i = required.length - 1; i > 0; i--)
     {
-        const j = Math.floor(Math.random() * (i + 1));
+        const j = randomIndex(i + 1);
         const temp = required[i];
         required[i] = required[j] ?? "";
         required[j] = temp ?? "";

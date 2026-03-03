@@ -57,32 +57,30 @@ internal sealed partial class LocalFileStorageProvider : IFileStorageProvider
         string hash;
         long sizeInBytes;
 
-        var fileStream = new FileStream(
+        using var fileStream = new FileStream(
             fullPath,
             FileMode.Create,
             FileAccess.Write,
             FileShare.None,
             bufferSize: 81920,
             FileOptions.Asynchronous);
-        await using (fileStream.ConfigureAwait(false))
+
+        using var sha256 = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+        var buffer = new byte[81920];
+        var totalBytes = 0L;
+        int bytesRead;
+
+        while ((bytesRead = await content.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) > 0)
         {
-            using var sha256 = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
-            var buffer = new byte[81920];
-            var totalBytes = 0L;
-            int bytesRead;
+            await fileStream.WriteAsync(buffer.AsMemory(0, bytesRead), cancellationToken)
+                .ConfigureAwait(false);
 
-            while ((bytesRead = await content.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) > 0)
-            {
-                await fileStream.WriteAsync(buffer.AsMemory(0, bytesRead), cancellationToken)
-                    .ConfigureAwait(false);
-
-                sha256.AppendData(buffer, 0, bytesRead);
-                totalBytes += bytesRead;
-            }
-
-            sizeInBytes = totalBytes;
-            hash = Convert.ToHexString(sha256.GetCurrentHash());
+            sha256.AppendData(buffer, 0, bytesRead);
+            totalBytes += bytesRead;
         }
+
+        sizeInBytes = totalBytes;
+        hash = Convert.ToHexString(sha256.GetCurrentHash());
 
         var fileInfo = new FileInfo(fullPath);
 

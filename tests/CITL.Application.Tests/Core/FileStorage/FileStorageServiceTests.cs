@@ -256,7 +256,7 @@ public sealed class FileStorageServiceTests
         // Arrange
         var provider = Substitute.For<IFileStorageProvider>();
         provider.GetMetadataAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns((StoredFileMetadata?)null);
+            .Returns(default(StoredFileMetadata?));
 
         var service = CreateService(provider);
 

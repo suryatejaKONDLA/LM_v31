@@ -44,19 +44,13 @@ internal sealed class SqlServerHealthCheck(
             {
                 var sw = System.Diagnostics.Stopwatch.StartNew();
 
-                var connection = new SqlConnection(connectionString);
-                await using (connection.ConfigureAwait(false))
-                {
-                    await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
 
-                    var command = connection.CreateCommand();
-                    await using (command.ConfigureAwait(false))
-                    {
-                        command.CommandText = TestQuery;
-                        command.CommandType = CommandType.Text;
-                        await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
-                    }
-                }
+                using var command = connection.CreateCommand();
+                command.CommandText = TestQuery;
+                command.CommandType = CommandType.Text;
+                await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
 
                 sw.Stop();
 

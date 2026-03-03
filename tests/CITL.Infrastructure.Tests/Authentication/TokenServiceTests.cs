@@ -242,7 +242,7 @@ public sealed class TokenServiceTests
     {
         // Arrange
         _cache.GetAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns((byte[]?)null);
+            .Returns(default(byte[]?));
 
         // Act
         var result = await _sut.IsTokenBlacklistedAsync("valid-token", TenantId, CancellationToken.None);
@@ -340,7 +340,7 @@ public sealed class TokenServiceTests
     {
         // Arrange
         _cache.GetAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns((byte[]?)null);
+            .Returns(default(byte[]?));
 
         _authRepository
             .ValidateRefreshTokenAsync(TestUser, Arg.Any<byte[]>(), Arg.Any<CancellationToken>())
@@ -358,7 +358,7 @@ public sealed class TokenServiceTests
     {
         // Arrange
         _cache.GetAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns((byte[]?)null);
+            .Returns(default(byte[]?));
 
         _authRepository
             .ValidateRefreshTokenAsync(TestUser, Arg.Any<byte[]>(), Arg.Any<CancellationToken>())

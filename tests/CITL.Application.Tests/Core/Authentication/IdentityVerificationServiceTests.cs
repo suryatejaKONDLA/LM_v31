@@ -85,7 +85,7 @@ public sealed class IdentityVerificationServiceTests
             LoginMobileNo = "1234567890"
         };
         _repository.VerifyUserIdentityAsync("unknown", "unknown@example.com", "1234567890", Arg.Any<CancellationToken>())
-            .Returns((UserIdentityInfo?)null);
+            .Returns(default(UserIdentityInfo?));
 
         // Act
         var result = await _service.ForgotPasswordAsync(request, CancellationToken.None);
@@ -168,7 +168,7 @@ public sealed class IdentityVerificationServiceTests
         // Arrange
         var request = new ResetPasswordRequest { Token = "expired-token", LoginPassword = "NewPass1" };
         _repository.ValidateTokenAsync(2, "expired-token", Arg.Any<CancellationToken>())
-            .Returns((int?)null);
+            .Returns(default(int?));
 
         // Act
         var result = await _service.ResetPasswordAsync(request, CancellationToken.None);
@@ -224,7 +224,7 @@ public sealed class IdentityVerificationServiceTests
             LoginMobileNo = "1234567890"
         };
         _repository.VerifyUserIdentityAsync("unknown", "u@example.com", "1234567890", Arg.Any<CancellationToken>())
-            .Returns((UserIdentityInfo?)null);
+            .Returns(default(UserIdentityInfo?));
 
         var result = await _service.ResendVerificationAsync(request, CancellationToken.None);
 
@@ -296,7 +296,7 @@ public sealed class IdentityVerificationServiceTests
     {
         var request = new VerifyEmailRequest { Token = "bad-token" };
         _repository.ValidateTokenAsync(1, "bad-token", Arg.Any<CancellationToken>())
-            .Returns((int?)null);
+            .Returns(default(int?));
 
         var result = await _service.VerifyEmailAsync(request, CancellationToken.None);
 

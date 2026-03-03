@@ -34,7 +34,7 @@ internal sealed class R2StorageHealthCheck(
             var sw = System.Diagnostics.Stopwatch.StartNew();
 
             // Use the provider to verify connectivity: check if a non-existent file returns false
-            var exists = await fileStorageProvider.ExistsAsync(
+            await fileStorageProvider.ExistsAsync(
                 $"__health_check_{Guid.NewGuid():N}",
                 cancellationToken).ConfigureAwait(false);
 

@@ -78,7 +78,7 @@ public sealed class AppMasterServiceTests
     {
         // Arrange
         var repository = Substitute.For<IAppMasterRepository>();
-        repository.GetAsync(Arg.Any<CancellationToken>()).Returns(default(AppMasterResponse));
+        repository.GetAsync(Arg.Any<CancellationToken>()).Returns(default(AppMasterResponse?));
         var service = CreateService(repository);
 
         // Act

@@ -63,15 +63,7 @@ jobs:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
           queries: security-extended, security-and-quality
-          config: |
-            paths-ignore:
-              - "src/CITL.Web/node_modules"
-              - "src/CITL.Web/dist"
-              - "**/bin/**"
-              - "**/obj/**"
-              - "**/*.Designer.cs"
-              - "**/*.generated.cs"
-              - "grafana/**"
+          config-file: .github/codeql/codeql-config.yml
 
       - name: Restore NuGet packages
         if: matrix.build-mode == 'manual'
@@ -86,6 +78,15 @@ jobs:
         with:
           category: "/language:${{ matrix.language }}"
           upload: always
+          # Second-layer filter: strips any alerts that still reference generated
+          # paths even after paths-ignore (e.g. in-memory Roslyn source generators).
+          filter-sarif-files: |
+            **/obj/**
+            **/bin/**
+            **/*.generated.cs
+            **/*.Designer.cs
+            **/*.g.cs
+            **/*.g.i.cs
 
   # Blocks PRs that introduce high/critical vulnerable packages
   dependency-review:

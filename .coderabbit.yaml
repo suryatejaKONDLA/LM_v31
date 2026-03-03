@@ -1,0 +1,131 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# CodeRabbit — AI Code Review for PRs
+# Docs: https://docs.coderabbit.ai/reference/configuration
+
+language: "en-US"
+early_access: false
+
+reviews:
+  profile: "assertive"
+  request_changes_workflow: false
+  high_level_summary: true
+  high_level_summary_in_walkthrough: true
+  review_status: true
+  review_details: true
+  commit_status: true
+  fail_commit_status: false
+  collapse_walkthrough: false
+  changed_files_summary: true
+  sequence_diagrams: true
+  assess_linked_issues: true
+  related_issues: true
+  related_prs: true
+  suggested_labels: true
+  suggested_reviewers: true
+  poem: false
+  in_progress_fortune: false
+  abort_on_close: true
+
+  # Exclude build output, generated code, and non-source files from review
+  path_filters:
+    - "!**/obj/**"
+    - "!**/bin/**"
+    - "!**/*.generated.cs"
+    - "!**/*.Designer.cs"
+    - "!**/*.g.cs"
+    - "!**/*.g.i.cs"
+    - "!**/node_modules/**"
+    - "!**/dist/**"
+    - "!grafana/**"
+    - "!**/*.min.js"
+    - "!**/*.min.css"
+    - "!**/auto-imports.d.ts"
+    - "!**/*.slnx"
+
+  # Layer-specific review instructions
+  path_instructions:
+    - path: "src/CITL.Domain/**/*.cs"
+      instructions: >
+        Domain layer — zero dependencies on frameworks, databases, or HTTP.
+        No project references except SharedKernel. Entities, value objects,
+        enums, and domain rules only. Flag any infrastructure or application
+        concerns leaking into this layer.
+    - path: "src/CITL.Application/**/*.cs"
+      instructions: >
+        Application layer — business logic and use cases. References Domain
+        and SharedKernel only. Service interfaces and implementations, DTOs,
+        validators, use case logic. Uses Result<T> for business outcomes.
+        Async methods must have Async suffix, accept CancellationToken, and
+        use .ConfigureAwait(false). Flag any direct infrastructure usage
+        (Dapper, HTTP, file I/O).
+    - path: "src/CITL.Infrastructure/**/*.cs"
+      instructions: >
+        Infrastructure layer — data access (Dapper via IDbExecutor), Redis/
+        MemoryCache, email, file storage, DbUp migrations. Implements
+        interfaces defined in Application. Must use .ConfigureAwait(false).
+        Database-per-tenant multi-tenancy — verify all queries use the
+        correct tenant connection. Flag any business logic that belongs in
+        Application.
+    - path: "src/CITL.WebApi/**/*.cs"
+      instructions: >
+        WebApi layer — controllers, middleware, filters, DI composition root.
+        No .ConfigureAwait(false) here (ASP.NET Core has no SynchronizationContext).
+        Controllers should be thin — delegate to Application services.
+        Flag any business logic or direct database access in controllers.
+    - path: "src/CITL.SharedKernel/**/*.cs"
+      instructions: >
+        SharedKernel — cross-cutting concerns: Result<T>, exceptions, guards,
+        constants, extension methods, common interfaces. Zero project references.
+        Must not reference any other CITL project.
+    - path: "tests/**/*.cs"
+      instructions: >
+        Tests use xUnit. Method names: MethodName_Condition_ExpectedResult.
+        Arrange/Act/Assert with comments. Act is exactly one statement. Mock
+        only interfaces, only direct dependencies. Use NSubstitute.
+    - path: "src/CITL.Web/src/**/*.{ts,tsx}"
+      instructions: >
+        React 19 + TypeScript frontend. Ant Design 6 for UI components.
+        Zustand for state management. React Router 7 for routing.
+        Vite 8 with @vitejs/plugin-react-swc — never switch to Babel.
+        Follow Clean Architecture: Presentation → Application →
+        Infrastructure → Domain.
+    - path: "**/*.sql"
+      instructions: >
+        DbUp SQL migration scripts. Must be idempotent where possible.
+        Use IF NOT EXISTS guards. Follow sequential numbering convention.
+
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - master
+
+  tools:
+    eslint:
+      enabled: true
+    markdownlint:
+      enabled: true
+    gitleaks:
+      enabled: true
+    shellcheck:
+      enabled: true
+    yamllint:
+      enabled: true
+    actionlint:
+      enabled: true
+    github-checks:
+      enabled: true
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  opt_out: false
+  learnings:
+    scope: auto
+  code_guidelines:
+    enabled: true
+    file_patterns:
+      - "CODING_STANDARDS.md"
+      - ".github/ARCHITECTURE_DECISIONS.md"
+      - "AGENTS.md"

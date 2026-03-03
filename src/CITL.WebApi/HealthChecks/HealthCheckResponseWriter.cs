@@ -38,7 +38,7 @@ internal static class HealthCheckResponseWriter
                 DurationMs = entry.Value.Duration.TotalMilliseconds,
                 Error = entry.Value.Exception?.Message,
                 Data = entry.Value.Data.Count > 0
-                    ? entry.Value.Data.ToDictionary(d => d.Key, d => (object?)d.Value)
+                    ? entry.Value.Data.ToDictionary<KeyValuePair<string, object>, string, object?>(d => d.Key, d => d.Value)
                     : null
             }).ToList()
         };

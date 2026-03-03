@@ -103,7 +103,7 @@ public sealed class AccountServiceTests
     {
         // Arrange
         var repository = Substitute.For<IAccountRepository>();
-        repository.GetProfileAsync(1, Arg.Any<CancellationToken>()).Returns((ProfileResponse?)null);
+        repository.GetProfileAsync(1, Arg.Any<CancellationToken>()).Returns(default(ProfileResponse));
         var service = CreateService(repository);
 
         // Act

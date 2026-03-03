@@ -40,9 +40,6 @@ public sealed class ResultTests
     [Fact]
     public void Success_WithError_ThrowsArgumentException()
     {
-        // Arrange
-        var error = new Error("Not.None", "Some error");
-
         // Act & Assert
         Assert.Throws<ArgumentException>(() =>
         {

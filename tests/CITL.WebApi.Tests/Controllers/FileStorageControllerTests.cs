@@ -317,12 +317,11 @@ public sealed class FileStorageControllerTests
 
     private static IFormFile CreateMockFormFile(string fileName, string contentType, long length)
     {
-        var stream = new MemoryStream(new byte[length]);
         var file = Substitute.For<IFormFile>();
         file.FileName.Returns(fileName);
         file.ContentType.Returns(contentType);
         file.Length.Returns(length);
-        file.OpenReadStream().Returns(stream);
+        file.OpenReadStream().Returns(Substitute.For<Stream>());
 
         return file;
     }

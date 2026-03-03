@@ -273,13 +273,10 @@ public sealed class FileStorageController(IFileStorageService fileStorageService
             Response.Body,
             cancellationToken);
 
-        if (!result.IsSuccess)
+        if (!result.IsSuccess && !Response.HasStarted)
         {
-            if (!Response.HasStarted)
-            {
-                Response.Clear();
-                return FromResult(result);
-            }
+            Response.Clear();
+            return FromResult(result);
         }
 
         return new EmptyResult();
@@ -321,13 +318,10 @@ public sealed class FileStorageController(IFileStorageService fileStorageService
             Response.Body,
             cancellationToken);
 
-        if (!result.IsSuccess)
+        if (!result.IsSuccess && !Response.HasStarted)
         {
-            if (!Response.HasStarted)
-            {
-                Response.Clear();
-                return FromResult(result);
-            }
+            Response.Clear();
+            return FromResult(result);
         }
 
         return new EmptyResult();

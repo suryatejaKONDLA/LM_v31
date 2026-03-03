@@ -113,8 +113,8 @@ public sealed class CorrelationIdMiddlewareTests
         await middleware.InvokeAsync(context);
 
         // Assert
-        Assert.True(context.Response.Headers.ContainsKey(CorrelationConstants.HeaderName));
-        Assert.Equal(context.TraceIdentifier, context.Response.Headers[CorrelationConstants.HeaderName].ToString());
+        Assert.True(context.Response.Headers.TryGetValue(CorrelationConstants.HeaderName, out var headerValue));
+        Assert.Equal(context.TraceIdentifier, headerValue.ToString());
     }
 
     [Fact]

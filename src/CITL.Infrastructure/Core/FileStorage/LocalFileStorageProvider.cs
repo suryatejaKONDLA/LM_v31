@@ -305,7 +305,9 @@ internal sealed partial class LocalFileStorageProvider : IFileStorageProvider
 
     private string ResolvePath(string relativePath)
     {
-        var combined = Path.Combine(_basePath, relativePath.Replace('/', Path.DirectorySeparatorChar));
+        // TrimStart prevents Path.Combine from silently dropping _basePath when input is absolute.
+        var sanitized = relativePath.Replace('/', Path.DirectorySeparatorChar).TrimStart(Path.DirectorySeparatorChar);
+        var combined = Path.Combine(_basePath, sanitized);
         var resolved = Path.GetFullPath(combined);
 
         // Security: ensure resolved path is within base path (prevent directory traversal).

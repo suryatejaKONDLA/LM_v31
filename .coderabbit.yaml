@@ -99,6 +99,7 @@ reviews:
     drafts: false
     base_branches:
       - master
+      - dev
 
   tools:
     eslint:

@@ -1,26 +1,21 @@
 name: "CITL CodeQL Config"
 
-# Exclude paths that should never trigger alerts.
-# obj/ and bin/ are build artifacts — never committed.
-# Source generators (OpenAPI, Roslyn) emit files into obj/generated/
-# which are intercepted by CodeQL during compilation via compiler tracing.
-# Patterns cover both on-disk paths and compiler-traced virtual paths.
+# IMPORTANT: paths-ignore only works for interpreted languages (JS/TS) and
+# build-mode: none. For C# with build-mode: manual, CodeQL traces the Roslyn
+# compiler and extracts source-generated files at the compiler level —
+# paths-ignore has NO effect. For C#, SARIF filtering is done post-analysis
+# by advanced-security/filter-sarif in the codeql.yml workflow.
+#
+# These patterns still protect the JS/TS analysis from scanning unwanted paths.
 paths-ignore:
-  # .NET build output
   - "**/bin/**"
   - "**/obj/**"
-  # Specifically target Roslyn / OpenAPI source-generator output paths
-  - "**/obj/Debug/**"
-  - "**/obj/Release/**"
   - "**/generated/**"
-  # Common C# auto-generated file suffixes
   - "**/*.Designer.cs"
   - "**/*.generated.cs"
   - "**/*.g.cs"
   - "**/*.g.i.cs"
-  # Node / frontend build artifacts
   - "src/CITL.Web/node_modules/**"
   - "src/CITL.Web/dist/**"
-  # Infrastructure / config
   - "grafana/**"
   - "scripts/**"

@@ -57,8 +57,25 @@ jobs:
               a.rule.severity === 'error' || a.rule.severity === 'warning'
             );
 
-            if (relevant.length === 0) {
-              core.info('No open error/warning alerts — nothing to do.');
+            // Safety net: skip alerts in auto-generated / build-output paths.
+            // Even with SARIF filtering in the CodeQL workflow, dismissed alerts
+            // can reopen when the same code is re-extracted. This prevents
+            // issues being created for obj/, bin/, and source-generator output.
+            const generatedPathPatterns = [
+              /[\\/]obj[\\/]/i,
+              /[\\/]bin[\\/]/i,
+              /\.generated\.cs$/i,
+              /\.Designer\.cs$/i,
+              /\.g\.cs$/i,
+              /\.g\.i\.cs$/i,
+            ];
+            const filtered = relevant.filter(a => {
+              const path = a.most_recent_instance?.location?.path ?? '';
+              return !generatedPathPatterns.some(p => p.test(path));
+            });
+
+            if (filtered.length === 0) {
+              core.info('No open error/warning alerts (after filtering generated paths) — nothing to do.');
               return;
             }
 
@@ -75,7 +92,7 @@ jobs:
             );
             const existingTitles = new Set(existing.map(i => i.title));
 
-            for (const alert of relevant) {
+            for (const alert of filtered) {
               const rule     = alert.rule;
               const loc      = alert.most_recent_instance?.location;
               const ref      = alert.most_recent_instance?.ref ?? 'refs/heads/master';

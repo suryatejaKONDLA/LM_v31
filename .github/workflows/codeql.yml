@@ -5,7 +5,7 @@
 #   - copilot-autofix.yml auto-creates an issue and assigns Copilot
 #   - Copilot creates a new branch (copilot/fix-...) and opens a fix PR
 #
-# Versions: actions/checkout@v6.0.2  actions/setup-dotnet@v5.1.0  github/codeql-action@v4.32.5  dependency-review-action@v4.8.3  github-script@v8.0.0
+# Versions: actions/checkout@v6.0.2  actions/setup-dotnet@v5.1.0  github/codeql-action@v4.32.5  advanced-security/filter-sarif@v1  dependency-review-action@v4.8.3  github-script@v8.0.0
 # Docs: https://docs.github.com/en/code-security/code-scanning
 
 name: CodeQL
@@ -77,16 +77,33 @@ jobs:
         uses: github/codeql-action/analyze@v4.32.5
         with:
           category: "/language:${{ matrix.language }}"
-          upload: always
-          # Second-layer filter: strips any alerts that still reference generated
-          # paths even after paths-ignore (e.g. in-memory Roslyn source generators).
-          filter-sarif-files: |
-            **/obj/**
-            **/bin/**
-            **/*.generated.cs
-            **/*.Designer.cs
-            **/*.g.cs
-            **/*.g.i.cs
+          # Save SARIF to disk for post-processing; only auto-upload on failure
+          # (for diagnostics on the tool status page).
+          upload: failure-only
+          output: sarif-results
+
+      # paths-ignore does NOT work for compiled languages with build-mode: manual.
+      # CodeQL traces the Roslyn compiler and extracts source-generated files
+      # (e.g. OpenAPI SourceGenerators in obj/) at the compiler level.
+      # Filter the SARIF results AFTER analysis but BEFORE upload.
+      - name: Filter SARIF (exclude generated/obj files)
+        uses: advanced-security/filter-sarif@v1
+        with:
+          patterns: |
+            -**/**/obj/**
+            -**/**/bin/**
+            -**/*.generated.cs
+            -**/*.Designer.cs
+            -**/*.g.cs
+            -**/*.g.i.cs
+          input: sarif-results/${{ matrix.language }}.sarif
+          output: sarif-results/${{ matrix.language }}.sarif
+
+      - name: Upload filtered SARIF
+        uses: github/codeql-action/upload-sarif@v4.32.5
+        with:
+          sarif_file: sarif-results/${{ matrix.language }}.sarif
+          category: "/language:${{ matrix.language }}"
 
   # Blocks PRs that introduce high/critical vulnerable packages
   dependency-review:

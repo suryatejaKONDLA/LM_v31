@@ -1,7 +1,7 @@
 {
   "name": "citl.web",
   "private": true,
-  "version": "03.03.2026.0212",
+  "version": "04.03.2026.0020",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -53,6 +53,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@typescript/native-preview": "^7.0.0-dev.20260303.1",
+    "@vitejs/plugin-basic-ssl": "^2.1.4",
     "@vitejs/plugin-react-swc": "^4.2.3",
     "@vitest/ui": "^4.0.18",
     "depcheck": "^1.4.7",

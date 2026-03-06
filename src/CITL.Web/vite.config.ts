@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
+import basicSsl from "@vitejs/plugin-basic-ssl";
 import { compression } from "vite-plugin-compression2";
 import { visualizer } from "rollup-plugin-visualizer";
 
@@ -23,6 +24,7 @@ export default defineConfig(({ command, mode }) =>
 
         plugins: [
             react(),
+            basicSsl(),
 
             // Brotli + Gzip pre-compression for production
             compression({
@@ -50,6 +52,8 @@ export default defineConfig(({ command, mode }) =>
         server: {
             port: 5173,
             strictPort: true,
+            open: true,
+            https: {},
             proxy: {
                 "/api": {
                     target: env.VITE_API_BASE_URL || "https://localhost:7001",

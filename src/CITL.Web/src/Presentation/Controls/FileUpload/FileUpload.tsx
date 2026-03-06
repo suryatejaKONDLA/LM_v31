@@ -3,7 +3,7 @@ import { Upload, Form, Button, Space, Tag, Typography, Popconfirm, theme } from 
 import { FileOutlined, FilePdfOutlined, FileImageOutlined, DeleteOutlined, InboxOutlined } from "@ant-design/icons";
 import { Controller, type Control, type FieldValues, type Path, type RegisterOptions } from "react-hook-form";
 import type { RcFile } from "antd/es/upload";
-import { ModalDialog } from "@/Presentation/Controls/ModalDialog/ModalDialog";
+import { ModalDialog } from "@/Shared/UI/ModalDialog";
 
 const { Text } = Typography;
 const { Dragger } = Upload;

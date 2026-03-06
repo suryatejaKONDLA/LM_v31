@@ -1,8 +1,7 @@
 import React, { memo, useCallback, useEffect, useDeferredValue, useMemo, useRef, useState } from "react";
 import { Input, List, Modal, theme, type InputRef } from "antd";
 import { SearchOutlined, EnterOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
-import { useMenuStore } from "@/Application/Index";
+import { useGuardedNavigate, useMenuStore } from "@/Application/Index";
 import { SearchEngineHelper } from "@/Shared/Index";
 import type { Menu } from "@/Domain/Index";
 
@@ -40,7 +39,7 @@ interface SearchDialogContentProps
 const SearchDialogContent = memo(({ onClose, token }: SearchDialogContentProps) =>
 {
     const inputRef = useRef<InputRef>(null);
-    const navigate = useNavigate();
+    const navigate = useGuardedNavigate();
     const { menus } = useMenuStore();
 
     const [ searchTerm, setSearchTerm ] = useState("");
@@ -146,7 +145,7 @@ const SearchDialogContent = memo(({ onClose, token }: SearchDialogContentProps) 
                 return;
             }
 
-            void navigate(menu.MENU_URL1);
+            navigate(menu.MENU_URL1);
             onClose();
         },
         [ navigate, onClose ],

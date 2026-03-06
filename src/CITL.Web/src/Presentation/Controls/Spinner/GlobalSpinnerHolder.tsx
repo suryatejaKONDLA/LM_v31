@@ -1,5 +1,5 @@
 import { useState, useEffect, memo } from "react";
-import { GlobalSpinner } from "./GlobalSpinner";
+import { GlobalSpinner } from "@/Shared/UI/GlobalSpinner";
 import { Spinner } from "./Spinner";
 
 /**

@@ -3,7 +3,7 @@ import { Upload, Form, Button, Space, Popconfirm, theme } from "antd";
 import { PictureOutlined, UploadOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Controller, type Control, type FieldValues, type Path, type RegisterOptions } from "react-hook-form";
 import type { RcFile } from "antd/es/upload";
-import { ModalDialog } from "@/Presentation/Controls/ModalDialog/ModalDialog";
+import { ModalDialog } from "@/Shared/UI/ModalDialog";
 
 // ============================================
 // IMAGE HELPERS (inlined to avoid external dependency)

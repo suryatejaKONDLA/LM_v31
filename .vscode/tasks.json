@@ -2,18 +2,6 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Build: Solution",
-      "type": "process",
-      "command": "dotnet",
-      "args": [
-        "build",
-        "${workspaceFolder}/CITL.slnx",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary;ForceNoAlign"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
       "label": "Build: API",
       "type": "process",
       "command": "dotnet",
@@ -33,14 +21,9 @@
         "run",
         "--project",
         "${workspaceFolder}/src/CITL.WebApi/CITL.WebApi.csproj",
-        "--no-launch-profile"
+        "--launch-profile",
+        "https"
       ],
-      "options": {
-        "env": {
-          "ASPNETCORE_ENVIRONMENT": "Development",
-          "ASPNETCORE_URLS": "https://localhost:7001;http://localhost:5001"
-        }
-      },
       "isBackground": true,
       "problemMatcher": {
         "owner": "csharp",
@@ -56,65 +39,6 @@
     },
     {
       "label": "Run: Frontend",
-      "type": "process",
-      "command": "npm",
-      "args": [
-        "run",
-        "dev"
-      ],
-      "windows": {
-        "command": "npm.cmd"
-      },
-      "linux": {
-        "command": "npm"
-      },
-      "osx": {
-        "command": "npm"
-      },
-      "options": {
-        "cwd": "${workspaceFolder}/src/CITL.Web"
-      },
-      "isBackground": true,
-      "problemMatcher": {
-        "owner": "vite",
-        "pattern": {
-          "regexp": "^$"
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": "^.*$",
-          "endsPattern": "^.*(Local:|ready in).*http://localhost:5173.*$"
-        }
-      }
-    },
-    {
-      "label": "Infra: Start",
-      "type": "shell",
-      "command": "docker compose up -d",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Infra: Stop",
-      "type": "shell",
-      "command": "docker compose down",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Run: Frontend (Open)",
       "type": "process",
       "command": "npm",
       "args": [
@@ -144,7 +68,7 @@
         "background": {
           "activeOnStart": true,
           "beginsPattern": "^.*$",
-          "endsPattern": "^.*(Local:|ready in).*http://localhost:5173.*$"
+          "endsPattern": "^.*(Local:|ready in).*https://localhost:5173.*$"
         }
       }
     }

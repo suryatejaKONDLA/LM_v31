@@ -363,23 +363,67 @@ This starts:
 - **OTLP gRPC** at `localhost:4317`
 - **OTLP HTTP** at `localhost:4318`
 
-### 3. Configure the Backend
+### 3. Configure Secrets
 
-Copy `appsettings.Development.json` and fill in your values:
+Sensitive values are **never stored in `appsettings*.json`**. They live in [.NET User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets) (Development) or environment variables (Production).
 
-```json
-{
-  "MultiTenancy": {
-    "ConnectionStringTemplate": "Server=...;Database={dbName};...",
-    "TenantMappings": {
-      "TENANT1": "DatabaseName1"
-    }
-  },
-  "Jwt": {
-    "SecretKey": "<base64-encoded-secret>"
-  }
-}
+#### Initialize User Secrets (one-time)
+
+```bash
+cd src/CITL.WebApi
+dotnet user-secrets init
 ```
+
+> The `UserSecretsId` is already set in `CITL.WebApi.csproj` — this command is a no-op if already initialised.
+
+#### Set All Required Secrets
+
+```bash
+cd src/CITL.WebApi
+
+# SQL Server connection string (replace values for your environment)
+dotnet user-secrets set "MultiTenancy:ConnectionStringTemplate" "Server=YOUR_SERVER;Database={dbName};User Id=sa;Password=YOUR_PASSWORD;Encrypt=true;TrustServerCertificate=true;MultipleActiveResultSets=true;Connection Timeout=30;Application Name=CITL"
+
+# JWT signing key — generate a random 64-byte Base64 string:
+#   [Convert]::ToBase64String([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(64))
+dotnet user-secrets set "Jwt:SecretKey" "YOUR_BASE64_JWT_SECRET"
+
+# Cloudflare R2 Storage
+dotnet user-secrets set "FileStorage:R2Endpoint" "https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com"
+dotnet user-secrets set "FileStorage:R2AccessKey" "YOUR_R2_ACCESS_KEY"
+dotnet user-secrets set "FileStorage:R2SecretKey" "YOUR_R2_SECRET_KEY"
+dotnet user-secrets set "FileStorage:R2BucketName" "YOUR_BUCKET"
+dotnet user-secrets set "FileStorage:R2PublicDomain" "https://YOUR_CUSTOM_DOMAIN"
+```
+
+#### Generate a JWT Secret Key
+
+```powershell
+# PowerShell
+[Convert]::ToBase64String([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(64))
+```
+
+```bash
+# Bash
+openssl rand -base64 64
+```
+
+#### List / Clear Secrets
+
+```bash
+# View all set secrets
+dotnet user-secrets list
+
+# Remove a single secret
+dotnet user-secrets remove "Jwt:SecretKey"
+
+# Remove all secrets
+dotnet user-secrets clear
+```
+
+#### Non-Secret Configuration
+
+Non-sensitive Development overrides (log level, Redis URL, OTLP endpoint, CORS origins, tenant mappings) remain in `appsettings.Development.json` and are safe to commit.
 
 ### 4. Run the Backend
 
@@ -433,6 +477,8 @@ Output lands in `src/CITL.Web/dist/` — includes `web.config` for IIS deploymen
 
 | Script | Purpose |
 |---|---|
+| `scripts/set-secrets.ps1` / `.sh` | **Interactive secrets setup** — set all user-secrets in one go |
+| `scripts/pull-schema.ps1` / `.sh` | Extract SQL schema per tenant via `sqlpackage` |
 | `scripts/start.ps1` / `.sh` | Start infra (Docker) + WebApi |
 | `scripts/start-infra.ps1` / `.sh` | Start only Docker services |
 | `scripts/build.ps1` / `.sh` | Full solution build |

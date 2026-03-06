@@ -34,7 +34,7 @@ export function generateStrongPassword(length = 16): string
     {
         const array = new Uint32Array(1);
         crypto.getRandomValues(array);
-        return array[0]! % max;
+        return (array[0] ?? 0) % max;
     };
 
     const randomChar = (chars: string): string =>

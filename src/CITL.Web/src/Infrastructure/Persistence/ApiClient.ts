@@ -333,6 +333,12 @@ export class ApiClient
     {
         if (axios.isAxiosError(error))
         {
+            // Re-throw cancelled requests — let callers handle AbortSignal cleanup.
+            if (axios.isCancel(error) || error.code === "ERR_CANCELED")
+            {
+                throw error;
+            }
+
             return ApiClient.handleAxiosError<T>(error);
         }
 

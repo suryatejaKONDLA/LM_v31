@@ -25,6 +25,9 @@ Be respectful, inclusive, and professional in all interactions.
    - .NET 11+ SDK
    - Visual Studio 2022+ (with ASP.NET workload) or VS Code with C# extension
    - SQL Server (local or remote)
+   - Configure secrets via `dotnet user-secrets` — see the [Secrets Setup](README.md#3-configure-secrets) section in `README.md`
+
+4. **Never commit secrets** — `appsettings*.json` must not contain passwords, API keys, or connection strings with credentials. All sensitive values go into User Secrets (Development) or environment variables (Production).
 
 4. **Familiarize yourself with the codebase**
    - Read [CODING_STANDARDS.md](./CODING_STANDARDS.md) — single source of truth for all style rules

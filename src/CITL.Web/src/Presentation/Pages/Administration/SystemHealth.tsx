@@ -20,7 +20,8 @@ import {
 import type { ColumnsType } from "antd/es/table";
 import { HealthService } from "@/Infrastructure/Index";
 import type { HealthCheckResponse, ServiceHealthEntry, HealthStatus } from "@/Infrastructure/Services/HealthService";
-import { GlobalSpinner } from "@/Presentation/Controls/Index";
+import { GlobalSpinner } from "@/Shared/UI/Index";
+import { isCancelledRequest } from "@/Shared/Helpers/RequestHelpers";
 
 const { Title, Text } = Typography;
 
@@ -286,7 +287,7 @@ export default function SystemHealth(): React.JSX.Element
         }
         catch (err: unknown)
         {
-            if (err instanceof DOMException && err.name === "AbortError")
+            if (isCancelledRequest(err))
             {
                 return;
             }

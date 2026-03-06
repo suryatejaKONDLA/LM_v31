@@ -1,0 +1,3 @@
+# This directory holds tenant-specific schema extracts (pulled from live databases).
+# Files here are gitignored — do not commit pulled schemas to source control.
+# Run ISchemaExtractor.ExtractAsync(tenantId, outputRoot) to regenerate.

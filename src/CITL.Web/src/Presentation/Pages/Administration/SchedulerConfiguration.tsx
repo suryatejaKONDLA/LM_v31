@@ -13,7 +13,8 @@ import type { ColumnsType } from "antd/es/table";
 import { SchedulerService } from "@/Infrastructure/Index";
 import type { TenantSchedulerStatusResponse, JobStatusResponse } from "@/Infrastructure/Services/SchedulerService";
 import { ApiResponseCode } from "@/Shared/Index";
-import { GlobalSpinner } from "@/Presentation/Controls/Index";
+import { isCancelledRequest } from "@/Shared/Helpers/Index";
+import { GlobalSpinner } from "@/Shared/UI/Index";
 
 const { Title, Text } = Typography;
 
@@ -83,7 +84,7 @@ export default function SchedulerConfiguration(): React.JSX.Element
         }
         catch (err: unknown)
         {
-            if (err instanceof DOMException && err.name === "AbortError")
+            if (isCancelledRequest(err))
             {
                 return;
             }

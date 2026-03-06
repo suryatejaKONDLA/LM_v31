@@ -2,14 +2,23 @@ import { useState, useEffect, useCallback } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Form, Card, Row, Col, Space, Typography, theme } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
-import { TextBox, ImageUpload, FormActionButtons, RecordDetailsBanner, GlobalSpinner, ModalDialog } from "@/Presentation/Controls/Index";
+import { TextBox, ImageUpload, FormActionButtons, RecordDetailsBanner } from "@/Presentation/Controls/Index";
+import { GlobalSpinner, ModalDialog } from "@/Shared/UI/Index";
 import { AppMasterService } from "@/Infrastructure/Index";
 import { type AppMasterResponse, type AppMasterRequest } from "@/Domain/Index";
 import { ApiResponseCode, V } from "@/Shared/Index";
+import { isCancelledRequest } from "@/Shared/Helpers/Index";
 
 const { Title } = Typography;
 
-type AppMasterFormValues = Required<Pick<AppMasterRequest, "APP_Header1" | "APP_Header2" | "APP_Logo1" | "APP_Logo2" | "APP_Logo3">>;
+interface AppMasterFormValues
+{
+    APP_Header1: string;
+    APP_Header2: string;
+    APP_Logo1: File | string | null;
+    APP_Logo2: File | string | null;
+    APP_Logo3: File | string | null;
+}
 
 const defaultValues: AppMasterFormValues = {
     APP_Header1: "",
@@ -49,6 +58,18 @@ export default function AppMaster(): React.JSX.Element
                 });
             }
         }
+        catch (err: unknown)
+        {
+            if (isCancelledRequest(err))
+            {
+                return;
+            }
+
+            ModalDialog.error({
+                title: "Error",
+                content: "Failed to load application settings. Please try again.",
+            });
+        }
         finally
         {
             GlobalSpinner.hide();
@@ -76,9 +97,9 @@ export default function AppMaster(): React.JSX.Element
                     APP_Code: appData?.APP_Code ?? 0,
                     APP_Header1: formValues.APP_Header1,
                     APP_Header2: formValues.APP_Header2,
-                    APP_Logo1: formValues.APP_Logo1,
-                    APP_Logo2: formValues.APP_Logo2,
-                    APP_Logo3: formValues.APP_Logo3,
+                    APP_Logo1: formValues.APP_Logo1 as string | null,
+                    APP_Logo2: formValues.APP_Logo2 as string | null,
+                    APP_Logo3: formValues.APP_Logo3 as string | null,
                     Session_Id: 0,
                     Branch_Code: 0,
                 };

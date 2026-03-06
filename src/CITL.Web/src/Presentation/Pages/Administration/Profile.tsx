@@ -2,15 +2,25 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Form, Card, Row, Col, Space, Typography, Tag, Divider, theme } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { TextBox, DropDown, DatePickerBox, ImageUpload, FormActionButtons, GlobalSpinner, ModalDialog, type DropDownItem } from "@/Presentation/Controls/Index";
+import { TextBox, DropDown, DatePickerBox, ImageUpload, FormActionButtons, type DropDownItem } from "@/Presentation/Controls/Index";
+import { GlobalSpinner, ModalDialog } from "@/Shared/UI/Index";
 import { AccountService } from "@/Infrastructure/Index";
 import { useAuthStore, useMenuStore } from "@/Application/Index";
 import { type ProfileResponse, type UpdateProfileRequest, type Menu } from "@/Domain/Index";
 import { ApiResponseCode, V } from "@/Shared/Index";
+import { isCancelledRequest } from "@/Shared/Helpers/Index";
 
 const { Title, Text } = Typography;
 
-type ProfileFormValues = Required<UpdateProfileRequest>;
+interface ProfileFormValues
+{
+    Login_Name: string;
+    Login_Mobile_No: string;
+    Login_Email_ID: string;
+    Login_DOB: string | null;
+    Login_Pic: File | string | null;
+    Menu_ID: string;
+}
 
 const defaultValues: ProfileFormValues = {
     Login_Name: "",
@@ -92,6 +102,18 @@ export default function Profile(): React.JSX.Element
                 });
             }
         }
+        catch (err: unknown)
+        {
+            if (isCancelledRequest(err))
+            {
+                return;
+            }
+
+            ModalDialog.error({
+                title: "Error",
+                content: "Failed to load profile. Please try again.",
+            });
+        }
         finally
         {
             GlobalSpinner.hide();
@@ -120,7 +142,7 @@ export default function Profile(): React.JSX.Element
                     Login_Mobile_No: formValues.Login_Mobile_No,
                     Login_Email_ID: formValues.Login_Email_ID,
                     Login_DOB: formValues.Login_DOB,
-                    Login_Pic: formValues.Login_Pic,
+                    Login_Pic: formValues.Login_Pic as string | null,
                     Menu_ID: formValues.Menu_ID,
                 };
 

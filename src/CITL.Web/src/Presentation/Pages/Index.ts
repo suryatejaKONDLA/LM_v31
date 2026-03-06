@@ -5,3 +5,4 @@ export { default as NetworkError } from "./NetworkError/NetworkError";
 export { default as Profile } from "./Administration/Profile";
 export { default as ChangePassword } from "./Administration/ChangePassword";
 export { default as AppMaster } from "./Administration/AppMaster";
+export { default as RoleMaster } from "./Administration/RoleMaster";

@@ -46,12 +46,11 @@ export type { MessageOptions } from "./Message/Message";
 export { Notify } from "./Notification/Notification";
 export type { NotifyOptions } from "./Notification/Notification";
 
-export { ModalDialog } from "./ModalDialog/ModalDialog";
+export { ModalDialogHolder } from "./ModalDialog/ModalDialog";
 
 export { Spinner } from "./Spinner/Spinner";
 export type { SpinnerProps } from "./Spinner/Spinner";
 
-export { GlobalSpinner } from "./Spinner/GlobalSpinner";
 export { GlobalSpinnerHolder } from "./Spinner/GlobalSpinnerHolder";
 
 // ── Layout / Display ──────────────────────────────────────────────

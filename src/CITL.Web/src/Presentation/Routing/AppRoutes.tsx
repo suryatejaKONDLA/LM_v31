@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Spin } from "antd";
+import { useDynamicRoutes } from "./useDynamicRoutes";
 
 // Lazy-loaded route guards
 const ProtectedRoute = lazy(() => import("@/Presentation/Routing/ProtectedRoute"));
@@ -31,6 +32,8 @@ const FallbackSpinner = <Spin size="large" style={{ display: "flex", justifyCont
  */
 export default function AppRoutes(): React.JSX.Element
 {
+    const dynamicRoutes = useDynamicRoutes();
+
     return (
         <Suspense fallback={FallbackSpinner}>
             <Routes>
@@ -59,6 +62,9 @@ export default function AppRoutes(): React.JSX.Element
                             <Route path="/Admin/ThemeEditor" element={<ThemeEditor />} />
                             <Route path="/Admin/SystemHealth" element={<SystemHealth />} />
                             <Route path="/Admin/Scheduler" element={<SchedulerConfiguration />} />
+
+                            {/* Dynamically generated routes from DB menus */}
+                            {dynamicRoutes}
 
                             {/* 404 catch-all (must be last inside protected group) */}
                             <Route path="*" element={<NotFound />} />

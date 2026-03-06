@@ -3,3 +3,4 @@ export { ApiResponseCode } from "./ApiResponseCode";
 export { ApiResponseType } from "./ApiResponseType";
 export { type FieldError } from "./FieldError";
 export { HttpStatusCode } from "./HttpStatusCode";
+export { type ResetConfirmProps } from "./ResetConfirmProps";

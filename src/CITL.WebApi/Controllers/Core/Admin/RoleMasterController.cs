@@ -1,5 +1,6 @@
 using CITL.Application.Common.Models;
 using CITL.Application.Core.Admin.RoleMaster;
+using CITL.SharedKernel.Results;
 using CITL.WebApi.Constants;
 using CITL.WebApi.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -80,7 +81,9 @@ public sealed class RoleMasterController(IRoleMasterService roleMasterService) :
         CancellationToken cancellationToken)
     {
         var result = await roleMasterService.AddOrUpdateAsync(request, cancellationToken);
-        return FromResult(result, "Role saved successfully.");
+        return result.IsSuccess
+            ? FromResult(Result.Success(), result.Value)
+            : FromResult(Result.Failure(result.Error));
     }
 
     /// <summary>
@@ -99,6 +102,8 @@ public sealed class RoleMasterController(IRoleMasterService roleMasterService) :
     public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
     {
         var result = await roleMasterService.DeleteAsync(id, cancellationToken);
-        return FromResult(result, "Role deleted successfully.");
+        return result.IsSuccess
+            ? FromResult(Result.Success(), result.Value)
+            : FromResult(Result.Failure(result.Error));
     }
 }

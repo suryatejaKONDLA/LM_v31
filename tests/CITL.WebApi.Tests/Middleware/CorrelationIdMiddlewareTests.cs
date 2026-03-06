@@ -74,7 +74,7 @@ public sealed class CorrelationIdMiddlewareTests
     public async Task InvokeAsync_WithCorrelationHeader_ReusesClientId()
     {
         // Arrange
-        var clientId = "client-trace-abc-123";
+        const string clientId = "client-trace-abc-123";
         var middleware = CreateMiddleware();
         var context = CreateContext(clientId);
 
@@ -121,7 +121,7 @@ public sealed class CorrelationIdMiddlewareTests
     public async Task InvokeAsync_ResponseHeaderMatchesClientId()
     {
         // Arrange
-        var clientId = "propagated-id-xyz";
+        const string clientId = "propagated-id-xyz";
         var middleware = CreateMiddleware();
         var context = CreateContext(clientId);
 

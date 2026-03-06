@@ -5,6 +5,7 @@
        where it genuinely avoids SynchronizationContext capture overhead. -->
   <PropertyGroup>
     <NoWarn>$(NoWarn);CA2007</NoWarn>
+    <UserSecretsId>7edbee65-f437-4353-9b41-f0c6ce374469</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.3" />

@@ -18,8 +18,8 @@ public interface IRoleMasterService
     Task<Result<RoleResponse>> GetByIdAsync(int roleId, CancellationToken cancellationToken);
 
     /// <summary>Creates or updates a role.</summary>
-    Task<Result> AddOrUpdateAsync(RoleMasterRequest request, CancellationToken cancellationToken);
+    Task<Result<string>> AddOrUpdateAsync(RoleMasterRequest request, CancellationToken cancellationToken);
 
     /// <summary>Deletes a role by ID.</summary>
-    Task<Result> DeleteAsync(int roleId, CancellationToken cancellationToken);
+    Task<Result<string>> DeleteAsync(int roleId, CancellationToken cancellationToken);
 }

@@ -142,8 +142,6 @@ public static class DependencyInjection
             services.AddSingleton<IFileStorageProvider, LocalFileStorageProvider>();
         }
 
-        // TODO: Add DbUp migration runner
-
         return services;
     }
 }

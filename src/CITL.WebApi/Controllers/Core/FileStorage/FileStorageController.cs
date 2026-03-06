@@ -78,7 +78,7 @@ public sealed class FileStorageController(IFileStorageService fileStorageService
             folder,
             resolvedFileName,
             stream,
-            file.ContentType ?? "application/octet-stream",
+            file.ContentType,
             cancellationToken);
 
         return FromResult(result, "File uploaded successfully.");

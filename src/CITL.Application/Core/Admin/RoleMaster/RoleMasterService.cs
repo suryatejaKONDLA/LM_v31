@@ -92,7 +92,7 @@ public sealed partial class RoleMasterService(
     // ────────────────────────────────────────────────────────────────
 
     /// <inheritdoc />
-    public async Task<Result> AddOrUpdateAsync(
+    public async Task<Result<string>> AddOrUpdateAsync(
         RoleMasterRequest request,
         CancellationToken cancellationToken)
     {
@@ -100,7 +100,7 @@ public sealed partial class RoleMasterService(
 
         if (!validation.IsValid)
         {
-            return validation.ToResult();
+            return validation.ToResult<string>();
         }
 
         var spResult = await repository.AddOrUpdateAsync(
@@ -118,11 +118,11 @@ public sealed partial class RoleMasterService(
             await InvalidateRoleCacheAsync(request.RoleId, cancellationToken).ConfigureAwait(false);
         }
 
-        return spResult.ToResult("Role.SaveFailed");
+        return spResult.ToMessageResult("Role.SaveFailed");
     }
 
     /// <inheritdoc />
-    public async Task<Result> DeleteAsync(int roleId, CancellationToken cancellationToken)
+    public async Task<Result<string>> DeleteAsync(int roleId, CancellationToken cancellationToken)
     {
         var spResult = await repository.DeleteAsync(roleId, cancellationToken).ConfigureAwait(false);
 
@@ -136,7 +136,7 @@ public sealed partial class RoleMasterService(
             await InvalidateRoleCacheAsync(roleId, cancellationToken).ConfigureAwait(false);
         }
 
-        return spResult.ToResult("Role.DeleteFailed");
+        return spResult.ToMessageResult("Role.DeleteFailed");
     }
 
     // ────────────────────────────────────────────────────────────────

@@ -3,7 +3,7 @@ import { enUS, type Theme as AntdTheme } from "antd-token-previewer";
 import type { ThemeEditorMode } from "antd-token-previewer/lib/ThemeEditor";
 import { Card, Row, Col, Space, Typography, Tag, Divider, Select, Skeleton, ConfigProvider, theme, Button, Tooltip, Switch } from "antd";
 import { SettingOutlined, SaveOutlined, UndoOutlined, SunOutlined, MoonOutlined, InfoCircleOutlined, EditOutlined, CompressOutlined, SmileOutlined } from "@ant-design/icons";
-import { ModalDialog, GlobalSpinner } from "@/Presentation/Controls/Index";
+import { ModalDialog, GlobalSpinner } from "@/Shared/UI/Index";
 import { ThemeService } from "@/Infrastructure/Index";
 import { useThemeStore } from "@/Application/Index";
 import { ApiResponseCode, ThemeConstants } from "@/Shared/Index";

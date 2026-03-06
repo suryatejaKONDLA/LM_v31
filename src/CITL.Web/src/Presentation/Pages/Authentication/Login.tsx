@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Form, Button, Typography, Space, Avatar, Divider, Grid, theme } from "antd";
 import { LoadingOutlined, ReloadOutlined, SafetyCertificateFilled, CustomerServiceOutlined, WhatsAppOutlined } from "@ant-design/icons";
-import { TextBox, PasswordBox, ThemeToggleButton, GlobalSpinner } from "@/Presentation/Controls/Index";
+import { TextBox, PasswordBox, ThemeToggleButton, Message } from "@/Presentation/Controls/Index";
+import { GlobalSpinner } from "@/Shared/UI/Index";
 import { AuthService, AppMasterService, CompanyMasterService, MenuService, ThemeService, AuthStorage, TokenRefreshManager } from "@/Infrastructure/Index";
 import { useAuthStore, useCompanyStore, useMenuStore, useThemeStore, useLocationStore } from "@/Application/Index";
 import { type LoginRequest, type CaptchaResponse } from "@/Domain/Index";
@@ -17,7 +18,12 @@ const c = (...names: string[]): string =>
     names.map((n) => cssModule[n] ?? "").filter(Boolean).join(" ");
 
 /** Form-level subset — only fields the user types. */
-type LoginFormValues = Pick<LoginRequest, "Login_User" | "Login_Password"> & { Captcha_Value: string };
+interface LoginFormValues
+{
+    Login_User: string;
+    Login_Password: string;
+    Captcha_Value: string;
+}
 
 /**
  * Login page — authenticates user and stores JWT tokens.
@@ -256,10 +262,14 @@ export default function Login(): React.JSX.Element
                             setValue("Captcha_Value", "");
                         }
                     }
+                    else
+                    {
+                        setCaptchaData(null);
+                    }
                 }
                 catch
                 {
-                    /* silent */
+                    setCaptchaData(null);
                 }
             })();
         }, 500);
@@ -338,6 +348,9 @@ export default function Login(): React.JSX.Element
 
                 if (loginResult.Code !== ApiResponseCode.Success)
                 {
+                    Message.error(loginResult.Message || "Login failed.");
+                    setValue("Login_Password", "");
+
                     // Reload CAPTCHA after failure
                     if (data.Login_User)
                     {
@@ -349,9 +362,15 @@ export default function Login(): React.JSX.Element
                                 setCaptchaData(captchaCheck.Data);
                                 setValue("Captcha_Value", "");
                             }
+                            else
+                            {
+                                setCaptchaData(null);
+                            }
                         }
                         catch
-                        { /* silent */ }
+                        {
+                            setCaptchaData(null);
+                        }
                     }
                     return;
                 }
@@ -409,7 +428,16 @@ export default function Login(): React.JSX.Element
                 { /* ProtectedRoute will retry on failure */ }
 
                 TokenRefreshManager.start();
-                void navigate("/Home");
+
+                if (res.Must_Change_Password)
+                {
+                    Message.warning("Password reset required. Please change your password.");
+                    void navigate("/Admin/ChangePassword", { replace: true });
+                }
+                else
+                {
+                    void navigate("/Home");
+                }
             }
             catch
             {

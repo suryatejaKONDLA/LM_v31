@@ -3,14 +3,20 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Form, Card, Row, Col, Space, Typography, Tag, Button, Progress, theme } from "antd";
 import { LockOutlined, KeyOutlined, SyncOutlined, CopyOutlined } from "@ant-design/icons";
-import { PasswordBox, FormActionButtons, ModalDialog } from "@/Presentation/Controls/Index";
+import { PasswordBox, FormActionButtons } from "@/Presentation/Controls/Index";
+import { ModalDialog } from "@/Shared/UI/Index";
 import { AccountService } from "@/Infrastructure/Index";
 import { type ChangePasswordRequest } from "@/Domain/Index";
 import { ApiResponseCode, V, PasswordMinLength, PasswordPattern, PasswordPatternMessage, generateStrongPassword, calculatePasswordStrength } from "@/Shared/Index";
 
 const { Title, Text } = Typography;
 
-type ChangePasswordFormValues = ChangePasswordRequest & { Login_Password1: string };
+interface ChangePasswordFormValues
+{
+    Login_Password_Old: string;
+    Login_Password: string;
+    Login_Password1: string;
+}
 
 const defaultValues: ChangePasswordFormValues = {
     Login_Password_Old: "",

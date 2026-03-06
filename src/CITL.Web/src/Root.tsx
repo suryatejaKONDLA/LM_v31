@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ConfigProvider, App as AntdApp, theme } from "antd";
 import { HappyProvider } from "@ant-design/happy-work-theme";
 import { AppRoutes } from "@/Presentation/Routing/Index";
-import { LocationBlockedModal, GlobalSpinnerHolder } from "@/Presentation/Controls/Index";
+import { LocationBlockedModal, GlobalSpinnerHolder, ModalDialogHolder, Message, Notify } from "@/Presentation/Controls/Index";
 import { AppConfig, ThemeConstants } from "@/Shared/Index";
 import { useThemeStore, useLocationPermission } from "@/Application/Index";
 
@@ -48,6 +48,9 @@ export default function Root(): React.JSX.Element
                     </BrowserRouter>
                     <LocationBlockedModal />
                     <GlobalSpinnerHolder />
+                    <ModalDialogHolder />
+                    <Message.Holder />
+                    <Notify.Holder />
                 </AntdApp>
             </HappyProvider>
         </ConfigProvider>

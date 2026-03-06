@@ -1,10 +1,9 @@
-import { useCallback, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
 import { Alert, Grid, Layout } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
-import { useAuthStore, useConnectivityStore, useGlobalShortcuts, useThemeShortcuts, useThemeStore } from "@/Application/Index";
+import { useAuthStore, useBranchStore, useConnectivityStore, useGlobalShortcuts, useGuardedNavigate, useThemeShortcuts, useThemeStore } from "@/Application/Index";
 import { SearchDialog, GlobalShortcutsHelp } from "@/Presentation/Controls/Index";
-import type { BranchInfo } from "@/Domain/Index";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import Sidebar from "./Sidebar/Sidebar";
@@ -17,7 +16,7 @@ import "@/Presentation/Layouts/CSSAnimations.css";
 export default function MainLayout(): React.JSX.Element
 {
     const screens = Grid.useBreakpoint();
-    const navigate = useNavigate();
+    const navigate = useGuardedNavigate();
     const user = useAuthStore((s) => s.user);
     const { toggleMode, setMode } = useThemeStore();
     const { hubStatus, networkOnline, apiReachable } = useConnectivityStore();
@@ -31,9 +30,16 @@ export default function MainLayout(): React.JSX.Element
     const [ collapsed, setCollapsed ] = useState(false);
     const [ mobileDrawerOpen, setMobileDrawerOpen ] = useState(false);
     const [ isSearchOpen, setIsSearchOpen ] = useState(false);
-    const [ activeBranch, setActiveBranch ] = useState<BranchInfo | null>(
-        () => user?.branches[0] ?? null,
-    );
+    const activeBranch = useBranchStore((s) => s.activeBranch);
+    const { setBranch: setActiveBranch, initBranch } = useBranchStore();
+
+    useEffect(() =>
+    {
+        if (user?.branches.length)
+        {
+            initBranch(user.branches);
+        }
+    }, [ user?.branches, initBranch ]);
 
     const handleToggle = useCallback(() =>
     {
@@ -62,18 +68,27 @@ export default function MainLayout(): React.JSX.Element
         setIsSearchOpen(false);
     }, []);
 
-    const handleBranchSelect = useCallback((branch: BranchInfo) =>
+    const handleBranchSelect = useCallback((branch: { BRANCH_Code: number; BRANCH_Name: string }) =>
     {
         setActiveBranch(branch);
-    }, []);
+    }, [ setActiveBranch ]);
 
     // ── Keyboard shortcuts ────────────────────────────────────────
     useGlobalShortcuts({
-        onHome: () => void navigate("/Home"),
+        onHome: () => 
+        {
+            navigate("/Home"); 
+        },
         onSearch: toggleSearch,
         onToggleSidebar: handleToggle,
-        onBack: () => void navigate(-1),
-        onForward: () => void navigate(1),
+        onBack: () => 
+        {
+            navigate(-1); 
+        },
+        onForward: () => 
+        {
+            navigate(1); 
+        },
     });
 
     useThemeShortcuts({ toggleMode, setMode });

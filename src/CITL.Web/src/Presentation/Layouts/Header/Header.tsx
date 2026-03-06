@@ -13,8 +13,7 @@ import {
     HeartOutlined,
     ClockCircleOutlined,
 } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
-import { useAuthStore, useThemeStore } from "@/Application/Index";
+import { useGuardedNavigate, useAuthStore, useThemeStore } from "@/Application/Index";
 import { ThemeToggleButton } from "@/Presentation/Controls/Index";
 import { AuthStorage, TokenRefreshManager } from "@/Infrastructure/Index";
 import type { BranchInfo } from "@/Domain/Index";
@@ -34,7 +33,7 @@ function HeaderInner({ collapsed, onToggle, isMobile, onSearchClick, activeBranc
 {
     const { token } = theme.useToken();
     const { isDarkMode } = useThemeStore();
-    const navigate = useNavigate();
+    const navigate = useGuardedNavigate();
     const user = useAuthStore((s) => s.user);
 
     const branches = useMemo(() => user?.branches ?? [], [ user?.branches ]);
@@ -62,23 +61,23 @@ function HeaderInner({ collapsed, onToggle, isMobile, onSearchClick, activeBranc
     {
         if (key === "profile")
         {
-            void navigate("/Admin/Profile");
+            navigate("/Admin/Profile");
         }
         else if (key === "changePassword")
         {
-            void navigate("/Admin/ChangePassword");
+            navigate("/Admin/ChangePassword");
         }
         else if (key === "themeEditor")
         {
-            void navigate("/Admin/ThemeEditor");
+            navigate("/Admin/ThemeEditor");
         }
         else if (key === "systemHealth")
         {
-            void navigate("/Admin/SystemHealth");
+            navigate("/Admin/SystemHealth");
         }
         else if (key === "scheduler")
         {
-            void navigate("/Admin/Scheduler");
+            navigate("/Admin/Scheduler");
         }
         else if (key === "logout")
         {

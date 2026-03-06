@@ -2,8 +2,8 @@ import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Avatar, Button, Drawer, Layout, Menu, Space, Spin, Typography, theme as antTheme, type MenuProps } from "antd";
 import type { ItemType } from "antd/es/menu/interface";
 import { CloseOutlined, DatabaseFilled, MinusOutlined, RightOutlined } from "@ant-design/icons";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useMenuStore, useCompanyStore, useThemeStore } from "@/Application/Index";
+import { useLocation } from "react-router-dom";
+import { useMenuStore, useCompanyStore, useThemeStore, useGuardedNavigate } from "@/Application/Index";
 import type { Menu as MenuType, BranchInfo } from "@/Domain/Index";
 import { buildLookupMaps, QuerySensitivePages, type MenuLookupMaps } from "./MenuLookupMaps";
 import c from "./Sidebar.module.css";
@@ -52,7 +52,7 @@ function SidebarInner({ collapsed, isMobile, mobileDrawerOpen, onClose, activeBr
 {
     const { token } = antTheme.useToken();
     const { isDarkMode } = useThemeStore();
-    const navigate = useNavigate();
+    const navigate = useGuardedNavigate();
     const location = useLocation();
 
     const { menus, isLoaded } = useMenuStore();
@@ -190,7 +190,7 @@ function SidebarInner({ collapsed, isMobile, mobileDrawerOpen, onClose, activeBr
                 if (path)
                 {
                     setSelectedKey(info.key);
-                    void navigate(menu.MENU_URL1);
+                    navigate(menu.MENU_URL1);
 
                     if (isMobile)
                     {

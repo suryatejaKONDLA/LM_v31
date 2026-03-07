@@ -11,7 +11,7 @@ namespace CITL.Application.Common.Interfaces;
 /// <list type="bullet">
 ///   <item>
 ///     <term>CUD operations</term>
-///     <description>Use <see cref="ExecuteSpAsync"/> — automatically adds
+///     <description>Use <see cref="ExecuteSpAsync(string, Dictionary{string, object?}, CancellationToken)"/> — automatically adds
 ///     <c>@ResultVal</c>, <c>@ResultType</c>, <c>@ResultMessage</c> output parameters
 ///     and returns <see cref="SpResult"/>.</description>
 ///   </item>
@@ -43,6 +43,23 @@ public interface IDbExecutor
     Task<SpResult> ExecuteSpAsync(
         string storedProcedure,
         Dictionary<string, object?> parameters,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Executes a stored procedure that follows the CITL output contract and also returns one
+    /// additional <c>VARCHAR</c> output parameter beyond the standard three.
+    /// </summary>
+    /// <param name="storedProcedure">The fully-qualified SP name.</param>
+    /// <param name="parameters">Input parameter dictionary (keys without <c>@</c> prefix).</param>
+    /// <param name="extraOutputParamName">The name of the extra output parameter (without <c>@</c>).</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>
+    /// The standard <see cref="SpResult"/> and the value read from the extra output parameter.
+    /// </returns>
+    Task<(SpResult SpResult, string ExtraValue)> ExecuteSpAsync(
+        string storedProcedure,
+        Dictionary<string, object?> parameters,
+        string extraOutputParamName,
         CancellationToken cancellationToken = default);
 
     /// <summary>

@@ -77,15 +77,11 @@ internal sealed partial class CaptchaService(
         });
     }
 
-    /// <inheritdoc />
     public async Task<bool> IsCaptchaRequiredAsync(
         string loginUser,
         CancellationToken cancellationToken)
     {
-        var failedAttempts = await authRepository.GetFailedAttemptCountAsync(
-            loginUser, cancellationToken).ConfigureAwait(false);
-
-        return failedAttempts >= FailedAttemptThreshold;
+        return false;
     }
 
     /// <inheritdoc />

@@ -131,4 +131,59 @@
 
 ---
 
-Last Updated: March 1, 2026
+## Login Master: Email Verification Flow
+
+> Context: Admin creates user accounts. Welcome email carries the initial password.
+> A wrong email means credentials land in a stranger's inbox — actual security risk.
+> Goal: confirm the email is reachable **before** the password email fires.
+
+- [ ] **DB Migration**
+  - Add columns to `LOGIN_Master`:
+    - `Login_Email_Verified BIT NOT NULL DEFAULT 0`
+    - `Login_Email_VerifyToken NVARCHAR(100) NULL`
+    - `Login_Email_VerifyToken_Expiry DATETIME2 NULL`
+
+- [ ] **On INSERT** (in `LoginMasterRepository` / stored proc)
+  - Generate a token (`NEWID()`)
+  - Set expiry to `+48h`
+  - Send a **verification-only** email first: *"Confirm your email to receive your login credentials"*
+  - Do **not** send the welcome email (with password) until verified
+
+- [ ] **On Email Verified**
+  - New SP: `usp_LoginMaster_VerifyEmail(@Token)`
+    - Validates token is not expired
+    - Sets `Login_Email_Verified = 1`, nulls out token + expiry
+    - Returns SP result
+  - Fire the welcome email with password **after** verification succeeds
+
+- [ ] **New public endpoint**: `POST /LoginMaster/verify-email`
+  - No `[Authorize]` — must be reachable without a JWT
+  - Accepts `{ token: string }`
+  - Calls `usp_LoginMaster_VerifyEmail`
+  - Returns a simple success/failure `ApiResponse`
+
+- [ ] **Admin override**: Manual verify on the form
+  - For legacy/imported users where email is confirmed by other means
+  - New SP: `usp_LoginMaster_ManualVerify(@Login_ID)`
+  - New endpoint: `POST /LoginMaster/{id}/verify-manual` (authorized, admin-only)
+
+- [ ] **Resend verification**
+  - New SP: regenerate token + expiry, return new token
+  - New endpoint: `POST /LoginMaster/{id}/resend-verification` (authorized)
+  - Re-sends verification email with fresh token/link
+
+- [ ] **LoginMaster form badge**
+  - Show `✓ Verified` (green) or `⚠ Unverified` (orange) next to Email Address field
+  - Show "Resend" button when unverified (calls resend endpoint)
+  - Show "Mark Verified" button for admin override
+
+- [ ] **Frontend verify-email page**
+  - Route: `/verify-email?token=xxx` (public, no auth required)
+  - Calls `POST /LoginMaster/verify-email` on mount
+  - Shows success card or error card (token expired / invalid)
+
+- [ ] **No login block** — verification is about ensuring credentials reach the right person, not gating access
+
+---
+
+Last Updated: March 8, 2026

@@ -37,8 +37,7 @@ public sealed partial class AuthenticationService(
         }
 
         // 2. Check if CAPTCHA is required (based on failed attempt count)
-        var captchaRequired = await captchaService.IsCaptchaRequiredAsync(
-            request.LoginUser, cancellationToken).ConfigureAwait(false);
+        var captchaRequired = false;
 
         if (captchaRequired)
         {

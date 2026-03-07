@@ -13,11 +13,10 @@ internal sealed class AppMasterRepository(IDbExecutor db) : IAppMasterRepository
 {
     private const string GetSql = """
         SELECT
-            am.APP_Code, am.APP_Header1, am.APP_Header2, am.APP_Link,
-            am.APP_Logo1, am.APP_Logo2, am.APP_Logo3,
-            am.APP_Created_ID, cu.Login_Name AS AppCreatedName, am.APP_Created_Date,
-            am.APP_Modified_ID, mu.Login_Name AS AppModifiedName, am.APP_Modified_Date,
-            am.APP_Approved_ID, au.Login_Name AS AppApprovedName, am.APP_Approved_Date
+            am.*,
+            cu.Login_Name AS APP_Created_Name,
+            mu.Login_Name AS APP_Modified_Name,
+            au.Login_Name AS APP_Approved_Name
         FROM citl.App_Master am
             INNER JOIN citl.Login_Name cu ON cu.Login_ID = am.APP_Created_ID
             LEFT  JOIN citl.Login_Name mu ON mu.Login_ID = am.APP_Modified_ID

@@ -48,7 +48,7 @@ public sealed class RoleMasterControllerTests
     public async Task GetDropDownAsync_Returns200WithItems()
     {
         // Arrange
-        IReadOnlyList<DropDownResponse<int>> items = [new() { Value = 1, Text = "Admin" }];
+        IReadOnlyList<DropDownResponse<int>> items = [new() { Col1 = 1, Col2 = "Admin" }];
         _service.GetDropDownAsync(true, Arg.Any<CancellationToken>())
             .Returns(Result.Success(items));
 
@@ -102,7 +102,7 @@ public sealed class RoleMasterControllerTests
         // Arrange
         var request = new RoleMasterRequest { RoleId = 0, RoleName = "Admin", BranchCode = 1 };
         _service.AddOrUpdateAsync(Arg.Any<RoleMasterRequest>(), Arg.Any<CancellationToken>())
-            .Returns(Result.Success());
+            .Returns(Result.Success<string>("Role saved."));
 
         // Act
         var actionResult = await _controller.AddOrUpdateAsync(request, CancellationToken.None);
@@ -119,7 +119,7 @@ public sealed class RoleMasterControllerTests
         // Arrange
         var request = new RoleMasterRequest { RoleId = 0, RoleName = "", BranchCode = 1 };
         _service.AddOrUpdateAsync(Arg.Any<RoleMasterRequest>(), Arg.Any<CancellationToken>())
-            .Returns(Result.Failure(Error.Validation("RoleName", "Required.")));
+            .Returns(Result.Failure<string>(Error.Validation("RoleName", "Required.")));
 
         // Act
         var actionResult = await _controller.AddOrUpdateAsync(request, CancellationToken.None);
@@ -136,7 +136,7 @@ public sealed class RoleMasterControllerTests
     {
         // Arrange
         _service.DeleteAsync(1, Arg.Any<CancellationToken>())
-            .Returns(Result.Success());
+            .Returns(Result.Success<string>("Role deleted."));
 
         // Act
         var actionResult = await _controller.DeleteAsync(1, CancellationToken.None);
@@ -151,7 +151,7 @@ public sealed class RoleMasterControllerTests
     {
         // Arrange
         _service.DeleteAsync(99, Arg.Any<CancellationToken>())
-            .Returns(Result.Failure(Error.NotFound("Role", "99")));
+            .Returns(Result.Failure<string>(Error.NotFound("Role", "99")));
 
         // Act
         var actionResult = await _controller.DeleteAsync(99, CancellationToken.None);
@@ -166,7 +166,7 @@ public sealed class RoleMasterControllerTests
     {
         // Arrange
         _service.DeleteAsync(5, Arg.Any<CancellationToken>())
-            .Returns(Result.Success());
+            .Returns(Result.Success<string>("Role deleted."));
 
         // Act
         await _controller.DeleteAsync(5, CancellationToken.None);

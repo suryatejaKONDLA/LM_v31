@@ -5,7 +5,7 @@
 #   - copilot-autofix.yml auto-creates an issue and assigns Copilot
 #   - Copilot creates a new branch (copilot/fix-...) and opens a fix PR
 #
-# Versions: actions/checkout@v6.0.2  actions/setup-dotnet@v5.1.0  github/codeql-action@v4.32.5  advanced-security/filter-sarif@v1  dependency-review-action@v4.8.3  github-script@v8.0.0
+# Versions: actions/checkout@v6.0.2  actions/setup-dotnet@v5.2.0  github/codeql-action@v4.32.6  advanced-security/filter-sarif@v1  dependency-review-action@v4.9.0  github-script@v8.0.0
 # Docs: https://docs.github.com/en/code-security/code-scanning
 
 name: CodeQL
@@ -53,12 +53,12 @@ jobs:
 
       - name: Setup .NET
         if: matrix.language == 'csharp'
-        uses: actions/setup-dotnet@v5.1.0
+        uses: actions/setup-dotnet@v5.2.0
         with:
           dotnet-version: "11.0.x"
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4.32.5
+        uses: github/codeql-action/init@v4.32.6
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
@@ -76,7 +76,7 @@ jobs:
       # JS/TS: upload directly (no source-generator files to filter).
       # C#: save to disk for post-processing, upload only on failure for diagnostics.
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v4.32.5
+        uses: github/codeql-action/analyze@v4.32.6
         with:
           category: "/language:${{ matrix.language }}"
           upload: ${{ matrix.language == 'csharp' && 'failure-only' || 'always' }}
@@ -102,7 +102,7 @@ jobs:
 
       - name: Upload filtered SARIF
         if: matrix.language == 'csharp'
-        uses: github/codeql-action/upload-sarif@v4.32.5
+        uses: github/codeql-action/upload-sarif@v4.32.6
         with:
           sarif_file: sarif-results/${{ matrix.language }}.sarif
           category: "/language:${{ matrix.language }}"
@@ -120,7 +120,7 @@ jobs:
         uses: actions/checkout@v6.0.2
 
       - name: Dependency Review
-        uses: actions/dependency-review-action@v4.8.3
+        uses: actions/dependency-review-action@v4.9.0
         with:
           fail-on-severity: high
           comment-summary-in-pr: always

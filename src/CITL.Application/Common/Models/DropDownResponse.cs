@@ -10,9 +10,9 @@ public sealed class DropDownResponse<T>
 {
     /// <summary>The dropdown value (identifier).</summary>
     [JsonPropertyName("Col1")]
-    public T Value { get; init; } = default!;
+    public T Col1 { get; init; } = default!;
 
     /// <summary>The dropdown display text.</summary>
     [JsonPropertyName("Col2")]
-    public string Text { get; init; } = string.Empty;
+    public string Col2 { get; init; } = string.Empty;
 }

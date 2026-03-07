@@ -54,7 +54,7 @@ public sealed class AccountServiceTests
         ResultMessage = "Current password is incorrect."
     };
 
-    private AccountService CreateService(
+    private static AccountService CreateService(
         IAccountRepository? repository = null,
         ICurrentUser? currentUser = null)
     {

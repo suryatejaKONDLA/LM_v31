@@ -17,7 +17,13 @@ export const ApiRoutes = {
     AppMaster: "AppMaster",
     CompanyMaster: "CompanyMaster",
     RoleMaster: "RoleMaster",
+    RoleMenuMapping: "RoleMenuMapping",
+    Mappings: "Mappings",
+    BranchMaster: "BranchMaster",
     MailMaster: "MailMaster",
+    FinYearMaster: "FinYearMaster",
+    LoginMaster: "LoginMaster",
+    GenderMaster: "GenderMaster",
 
     // File — [Route("[controller]")] — reserved for future use
     FileStorage: "FileStorage",

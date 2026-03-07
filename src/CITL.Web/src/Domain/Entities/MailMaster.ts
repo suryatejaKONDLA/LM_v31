@@ -1,7 +1,6 @@
 /**
  * Mail master response with audit trail.
  * Property names match backend [JsonPropertyName] attributes.
- * Mirrors CITL.Application.Core.Admin.MailMaster.MailMasterResponse.
  */
 export interface MailMasterResponse
 {
@@ -30,13 +29,30 @@ export interface MailMasterResponse
 
 /**
  * Mail master request for create/update.
- * Property names match backend [JsonPropertyName] attributes.
- * Mirrors CITL.Application.Core.Admin.MailMaster.MailMasterRequest.
  */
 export interface MailMasterRequest
 {
     Mail_SNo: number;
     Mail_Branch_Code: number;
+    Mail_From_Address: string;
+    Mail_From_Password: string;
+    Mail_Display_Name: string;
+    Mail_Host: string;
+    Mail_Port: number;
+    Mail_SSL_Enabled: boolean;
+    Mail_Max_Recipients: number;
+    Mail_Retry_Attempts: number;
+    Mail_Retry_Interval_Minutes: number;
+    Mail_Is_Active: boolean;
+    Mail_Is_Default: boolean;
+}
+
+/**
+ * Mail master form values for react-hook-form.
+ * Password included — shown empty in edit mode (never fetched from API).
+ */
+export interface MailFormValues
+{
     Mail_From_Address: string;
     Mail_From_Password: string;
     Mail_Display_Name: string;

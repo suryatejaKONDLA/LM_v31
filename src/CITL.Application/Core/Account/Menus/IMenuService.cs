@@ -21,4 +21,6 @@ public interface IMenuService
         int loginId,
         bool asTree,
         CancellationToken cancellationToken);
+
+    Task<Result<IReadOnlyList<MenuResponse>>> GetAllMenusAsync(bool asTree, CancellationToken cancellationToken);
 }

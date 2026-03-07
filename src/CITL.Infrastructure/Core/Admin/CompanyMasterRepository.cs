@@ -13,13 +13,10 @@ internal sealed class CompanyMasterRepository(IDbExecutor db) : ICompanyMasterRe
 {
     private const string GetSql = """
         SELECT
-            cm.CMP_Code, cm.CMP_Full_Name, cm.CMP_Short_Name,
-            cm.CMP_Mobile1, cm.CMP_Mobile2, cm.CMP_Email,
-            cm.CMP_Website, cm.CMP_Tagline,
-            cm.CMP_Logo1, cm.CMP_Logo2, cm.CMP_Logo3,
-            cm.CMP_Created_ID, cu.Login_Name AS CmpCreatedName, cm.CMP_Created_Date,
-            cm.CMP_Modified_ID, mu.Login_Name AS CmpModifiedName, cm.CMP_Modified_Date,
-            cm.CMP_Approved_ID, au.Login_Name AS CmpApprovedName, cm.CMP_Approved_Date
+            cm.*,
+            cu.Login_Name AS CMP_Created_Name,
+            mu.Login_Name AS CMP_Modified_Name,
+            au.Login_Name AS CMP_Approved_Name
         FROM citl.CMP_Company cm
             INNER JOIN citl.Login_Name cu ON cu.Login_ID = cm.CMP_Created_ID
             LEFT  JOIN citl.Login_Name mu ON mu.Login_ID = cm.CMP_Modified_ID

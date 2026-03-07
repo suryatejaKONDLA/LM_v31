@@ -9,10 +9,10 @@ internal sealed class RoleMasterRepository(IDbExecutor db) : IRoleMasterReposito
 {
     private const string GetAllBaseSql = """
         SELECT
-            rm.ROLE_ID, rm.ROLE_Name, rm.ROLE_Branch_Code,
-            rm.ROLE_Created_ID,  cu.Login_Name AS RoleCreatedName,  rm.ROLE_Created_Date,
-            rm.ROLE_Modified_ID, mu.Login_Name AS RoleModifiedName, rm.ROLE_Modified_Date,
-            rm.ROLE_Approved_ID, au.Login_Name AS RoleApprovedName, rm.ROLE_Approved_Date
+            rm.*,
+            cu.Login_Name AS RoleCreatedName,
+            mu.Login_Name AS RoleModifiedName,
+            au.Login_Name AS RoleApprovedName
         FROM citl.ROLE_Master rm
             INNER JOIN citl.Login_Name cu ON cu.Login_ID = rm.ROLE_Created_ID
             LEFT  JOIN citl.Login_Name mu ON mu.Login_ID = rm.ROLE_Modified_ID
@@ -21,10 +21,10 @@ internal sealed class RoleMasterRepository(IDbExecutor db) : IRoleMasterReposito
 
     private const string GetByIdSql = """
         SELECT
-            rm.ROLE_ID, rm.ROLE_Name, rm.ROLE_Branch_Code,
-            rm.ROLE_Created_ID,  cu.Login_Name AS RoleCreatedName,  rm.ROLE_Created_Date,
-            rm.ROLE_Modified_ID, mu.Login_Name AS RoleModifiedName, rm.ROLE_Modified_Date,
-            rm.ROLE_Approved_ID, au.Login_Name AS RoleApprovedName, rm.ROLE_Approved_Date
+            rm.*,
+            cu.Login_Name AS RoleCreatedName,
+            mu.Login_Name AS RoleModifiedName,
+            au.Login_Name AS RoleApprovedName
         FROM citl.ROLE_Master rm
             INNER JOIN citl.Login_Name cu ON cu.Login_ID = rm.ROLE_Created_ID
             LEFT  JOIN citl.Login_Name mu ON mu.Login_ID = rm.ROLE_Modified_ID

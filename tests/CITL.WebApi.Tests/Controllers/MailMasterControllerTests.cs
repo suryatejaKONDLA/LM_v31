@@ -48,7 +48,7 @@ public sealed class MailMasterControllerTests
     public async Task GetDropDownAsync_Returns200WithItems()
     {
         // Arrange
-        IReadOnlyList<DropDownResponse<int>> items = [new() { Value = 1, Text = "test@example.com" }];
+        IReadOnlyList<DropDownResponse<int>> items = [new() { Col1 = 1, Col2 = "test@example.com" }];
         _service.GetDropDownAsync(true, Arg.Any<CancellationToken>())
             .Returns(Result.Success(items));
 

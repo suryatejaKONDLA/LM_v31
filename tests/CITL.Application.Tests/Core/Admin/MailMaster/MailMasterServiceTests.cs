@@ -106,7 +106,7 @@ public sealed class MailMasterServiceTests
     public async Task GetDropDownAsync_ReturnsCachedOrFreshItems()
     {
         // Arrange
-        IReadOnlyList<DropDownResponse<int>> items = [new() { Value = 1, Text = "noreply@example.com" }];
+        IReadOnlyList<DropDownResponse<int>> items = [new() { Col1 = 1, Col2 = "noreply@example.com" }];
         _cacheService.GetOrSetAsync(
             Arg.Any<string>(),
             Arg.Any<Func<CancellationToken, Task<IReadOnlyList<DropDownResponse<int>>>>>(),

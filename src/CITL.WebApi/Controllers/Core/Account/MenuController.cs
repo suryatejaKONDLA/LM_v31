@@ -40,4 +40,19 @@ public sealed class MenuController(IMenuService menuService) : CitlControllerBas
         var result = await menuService.GetMenusAsync(loginId, asTree, cancellationToken);
         return FromResult(result);
     }
+
+    /// <summary>
+    /// Gets all active system menus.
+    /// </summary>
+    /// <param name="asTree">When true, returns a hierarchical tree. Otherwise, a flat list.</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>A list of master menus</returns>
+    [HttpGet("All")]
+    [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<MenuResponse>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetAllAsync([FromQuery] bool asTree, CancellationToken cancellationToken)
+    {
+        var result = await menuService.GetAllMenusAsync(asTree, cancellationToken);
+        return FromResult(result);
+    }
 }

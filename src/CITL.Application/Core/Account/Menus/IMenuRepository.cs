@@ -14,4 +14,6 @@ public interface IMenuRepository
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A flat, ordered list of menu items with empty <c>Children</c> collections.</returns>
     Task<IReadOnlyList<MenuResponse>> GetMenusAsync(int loginId, CancellationToken cancellationToken);
+
+    Task<IReadOnlyList<MenuResponse>> GetAllMenusAsync(CancellationToken cancellationToken);
 }

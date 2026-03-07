@@ -11,10 +11,7 @@ namespace CITL.Infrastructure.Core.Account;
 internal sealed class MenuRepository(IDbExecutor db) : IMenuRepository
 {
     private const string GetMenusSql = """
-        SELECT
-            MENU_ID, MENU_Name, MENU_Description, MENU_Parent_ID,
-            MENU_URL1, MENU_URL2, MENU_URL3, MENU_Flag,
-            MENU_Icon1, MENU_Icon2, MENU_Startup_Flag
+        SELECT *
         FROM citltvf.Login_Menus(@LoginId)
         ORDER BY MENU_ID
         """;
@@ -26,6 +23,18 @@ internal sealed class MenuRepository(IDbExecutor db) : IMenuRepository
         var parameters = new { LoginId = loginId };
 
         return await db.QueryAsync<MenuResponse>(GetMenusSql, parameters, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    public async Task<IReadOnlyList<MenuResponse>> GetAllMenusAsync(CancellationToken cancellationToken)
+    {
+        const string GetAllMenusSql = """
+            SELECT *
+            FROM citltvf.Login_Menus(1)
+            ORDER BY MENU_ID
+            """;
+
+        return await db.QueryAsync<MenuResponse>(GetAllMenusSql, null, cancellationToken)
             .ConfigureAwait(false);
     }
 }

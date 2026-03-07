@@ -9,18 +9,18 @@ internal sealed class AccountRepository(IDbExecutor db) : IAccountRepository
 {
     private const string GetProfileSql = """
         SELECT
-            lm.Login_ID       AS LoginId,
-            lm.Login_User     AS LoginUser,
-            lm.Login_Name     AS LoginName,
-            lm.Login_Branch_Code AS LoginBranchCode,
-            lm2.Login_Designation   AS LoginDesignation,
-            lm2.Login_Mobile_No     AS LoginMobileNo,
-            lm2.Login_Email_ID      AS LoginEmailId,
-            lm2.Login_DOB           AS LoginDob,
-            lm2.Login_Gender        AS LoginGender,
-            lm2.Login_Email_Verified_Flag AS LoginEmailVerified,
-            lsp.MENU_ID             AS MenuId,
-            lmp.Login_Pic           AS LoginPicBytes
+            lm.Login_ID,
+            lm.Login_User,
+            lm.Login_Name,
+            lm.Login_Branch_Code,
+            lm2.Login_Designation,
+            lm2.Login_Mobile_No,
+            lm2.Login_Email_ID,
+            lm2.Login_DOB,
+            lm2.Login_Gender,
+            lm2.Login_Email_Verified_Flag,
+            lsp.MENU_ID,
+            lmp.Login_Pic
         FROM citl.Login_Master lm
             LEFT JOIN citl.Login_Master2 lm2 ON lm2.Login_ID = lm.Login_ID
             LEFT JOIN citl.Login_Master_Pic lmp ON lmp.Login_ID = lm.Login_ID
@@ -51,19 +51,19 @@ internal sealed class AccountRepository(IDbExecutor db) : IAccountRepository
 
         return new()
         {
-            LoginId = row.LoginId,
-            LoginUser = row.LoginUser,
-            LoginName = row.LoginName,
-            LoginBranchCode = row.LoginBranchCode,
-            LoginDesignation = row.LoginDesignation,
-            LoginMobileNo = row.LoginMobileNo,
-            LoginEmailId = row.LoginEmailId,
-            LoginDob = row.LoginDob,
-            LoginGender = row.LoginGender,
-            LoginEmailVerified = row.LoginEmailVerified,
-            MenuId = row.MenuId,
-            LoginPic = row.LoginPicBytes is { Length: > 0 }
-                ? Convert.ToBase64String(row.LoginPicBytes)
+            LoginId = row.Login_ID,
+            LoginUser = row.Login_User,
+            LoginName = row.Login_Name,
+            LoginBranchCode = row.Login_Branch_Code,
+            LoginDesignation = row.Login_Designation,
+            LoginMobileNo = row.Login_Mobile_No,
+            LoginEmailId = row.Login_Email_ID,
+            LoginDob = row.Login_DOB,
+            LoginGender = row.Login_Gender,
+            LoginEmailVerified = row.Login_Email_Verified_Flag,
+            MenuId = row.MENU_ID,
+            LoginPic = row.Login_Pic is { Length: > 0 }
+                ? Convert.ToBase64String(row.Login_Pic)
                 : null,
         };
     }
@@ -127,17 +127,17 @@ internal sealed class AccountRepository(IDbExecutor db) : IAccountRepository
     /// </summary>
     private sealed class ProfileQueryRow
     {
-        public int LoginId { get; init; }
-        public string LoginUser { get; init; } = string.Empty;
-        public string LoginName { get; init; } = string.Empty;
-        public int LoginBranchCode { get; init; }
-        public string LoginDesignation { get; init; } = string.Empty;
-        public string LoginMobileNo { get; init; } = string.Empty;
-        public string LoginEmailId { get; init; } = string.Empty;
-        public DateTime? LoginDob { get; init; }
-        public string LoginGender { get; init; } = string.Empty;
-        public bool LoginEmailVerified { get; init; }
-        public string? MenuId { get; init; }
-        public byte[]? LoginPicBytes { get; init; }
+        public int Login_ID { get; init; }
+        public string Login_User { get; init; } = string.Empty;
+        public string Login_Name { get; init; } = string.Empty;
+        public int Login_Branch_Code { get; init; }
+        public string Login_Designation { get; init; } = string.Empty;
+        public string Login_Mobile_No { get; init; } = string.Empty;
+        public string Login_Email_ID { get; init; } = string.Empty;
+        public DateTime? Login_DOB { get; init; }
+        public string Login_Gender { get; init; } = string.Empty;
+        public bool Login_Email_Verified_Flag { get; init; }
+        public string? MENU_ID { get; init; }
+        public byte[]? Login_Pic { get; init; }
     }
 }

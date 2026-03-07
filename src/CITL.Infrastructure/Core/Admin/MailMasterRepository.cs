@@ -9,14 +9,10 @@ internal sealed class MailMasterRepository(IDbExecutor db) : IMailMasterReposito
 {
     private const string GetAllBaseSql = """
         SELECT
-            mm.Mail_SNo, mm.Mail_Branch_Code,
-            mm.Mail_From_Address, mm.Mail_Display_Name,
-            mm.Mail_Host, mm.Mail_Port, mm.Mail_SSL_Enabled,
-            mm.Mail_Max_Recipients, mm.Mail_Retry_Attempts, mm.Mail_Retry_Interval_Minutes,
-            mm.Mail_Is_Active, mm.Mail_Is_Default,
-            mm.Mail_Created_ID,  cu.Login_Name AS MailCreatedName,  mm.Mail_Created_Date,
-            mm.Mail_Modified_ID, mu.Login_Name AS MailModifiedName, mm.Mail_Modified_Date,
-            mm.Mail_Approved_ID, au.Login_Name AS MailApprovedName, mm.Mail_Approved_Date
+            mm.*,
+            cu.Login_Name AS Mail_Created_Name,
+            mu.Login_Name AS Mail_Modified_Name,
+            au.Login_Name AS Mail_Approved_Name
         FROM citl_sys.Mail_Master mm
             INNER JOIN citl.Login_Name cu ON cu.Login_ID = mm.Mail_Created_ID
             LEFT  JOIN citl.Login_Name mu ON mu.Login_ID = mm.Mail_Modified_ID
@@ -25,14 +21,10 @@ internal sealed class MailMasterRepository(IDbExecutor db) : IMailMasterReposito
 
     private const string GetByIdSql = """
         SELECT
-            mm.Mail_SNo, mm.Mail_Branch_Code,
-            mm.Mail_From_Address, mm.Mail_Display_Name,
-            mm.Mail_Host, mm.Mail_Port, mm.Mail_SSL_Enabled,
-            mm.Mail_Max_Recipients, mm.Mail_Retry_Attempts, mm.Mail_Retry_Interval_Minutes,
-            mm.Mail_Is_Active, mm.Mail_Is_Default,
-            mm.Mail_Created_ID,  cu.Login_Name AS MailCreatedName,  mm.Mail_Created_Date,
-            mm.Mail_Modified_ID, mu.Login_Name AS MailModifiedName, mm.Mail_Modified_Date,
-            mm.Mail_Approved_ID, au.Login_Name AS MailApprovedName, mm.Mail_Approved_Date
+            mm.*,
+            cu.Login_Name AS Mail_Created_Name,
+            mu.Login_Name AS Mail_Modified_Name,
+            au.Login_Name AS Mail_Approved_Name
         FROM citl_sys.Mail_Master mm
             INNER JOIN citl.Login_Name cu ON cu.Login_ID = mm.Mail_Created_ID
             LEFT  JOIN citl.Login_Name mu ON mu.Login_ID = mm.Mail_Modified_ID

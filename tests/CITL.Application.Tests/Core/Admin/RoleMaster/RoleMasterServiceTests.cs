@@ -93,7 +93,7 @@ public sealed class RoleMasterServiceTests
     public async Task GetDropDownAsync_ReturnsCachedOrFreshItems()
     {
         // Arrange
-        IReadOnlyList<DropDownResponse<int>> items = [new() { Value = 1, Text = "Admin" }];
+        IReadOnlyList<DropDownResponse<int>> items = [new() { Col1 = 1, Col2 = "Admin" }];
         _cacheService.GetOrSetAsync(
             Arg.Any<string>(),
             Arg.Any<Func<CancellationToken, Task<IReadOnlyList<DropDownResponse<int>>>>>(),

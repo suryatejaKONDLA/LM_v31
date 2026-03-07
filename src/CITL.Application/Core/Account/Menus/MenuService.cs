@@ -39,6 +39,21 @@ public sealed partial class MenuService(
         return Result.Success(result);
     }
 
+    public async Task<Result<IReadOnlyList<MenuResponse>>> GetAllMenusAsync(bool asTree, CancellationToken cancellationToken)
+    {
+        var menus = await repository.GetAllMenusAsync(cancellationToken).ConfigureAwait(false);
+
+        if (menus.Count == 0)
+        {
+            return Result.Failure<IReadOnlyList<MenuResponse>>(
+                Error.NotFound(nameof(MenuResponse), "No master menus found."));
+        }
+
+        var result = asTree ? BuildTree(menus) : menus;
+
+        return Result.Success(result);
+    }
+
     /// <summary>
     /// Builds a parent-child tree from a flat, <c>MENU_ID</c>-ordered list.
     /// Items with no matching parent are treated as root nodes.

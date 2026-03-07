@@ -6,3 +6,4 @@ export { default as Profile } from "./Administration/Profile";
 export { default as ChangePassword } from "./Administration/ChangePassword";
 export { default as AppMaster } from "./Administration/AppMaster";
 export { default as RoleMaster } from "./Administration/RoleMaster";
+export { default as RoleMenuMapping } from "./Administration/Mappings/RoleMenuMapping";

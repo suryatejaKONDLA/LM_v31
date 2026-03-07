@@ -126,6 +126,85 @@ internal sealed partial class DbExecutor(
     }
 
     /// <inheritdoc />
+    public async Task<(SpResult SpResult, string ExtraValue)> ExecuteSpAsync(
+        string storedProcedure,
+        Dictionary<string, object?> parameters,
+        string extraOutputParamName,
+        CancellationToken cancellationToken = default)
+    {
+        var tenant = CurrentTenant;
+
+        using var activity = DbActivity.StartActivity("DB " + storedProcedure);
+        activity?.SetTag("db.system", "mssql");
+        activity?.SetTag("db.operation.name", "ExecuteStoredProcedure");
+        activity?.SetTag("db.query.text", storedProcedure);
+        activity?.SetTag("tenant", tenant);
+
+        var sw = Stopwatch.StartNew();
+
+        try
+        {
+            var dp = new DynamicParameters();
+
+            foreach (var (key, value) in parameters)
+            {
+                dp.Add($"@{key}", value);
+            }
+
+            dp.Add("@ResultVal", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            dp.Add("@ResultType", dbType: DbType.AnsiString, direction: ParameterDirection.Output, size: 10);
+            dp.Add("@ResultMessage", dbType: DbType.AnsiString, direction: ParameterDirection.Output, size: 4000);
+            dp.Add($"@{extraOutputParamName}", dbType: DbType.AnsiString, direction: ParameterDirection.Output, size: 500);
+
+            using var connection = connectionFactory.CreateConnection();
+
+            var command = new CommandDefinition(
+                storedProcedure,
+                dp,
+                commandType: CommandType.StoredProcedure,
+                cancellationToken: cancellationToken);
+
+            await connection.ExecuteAsync(command).ConfigureAwait(false);
+
+            var spResult = new SpResult
+            {
+                ResultVal = dp.Get<int>("@ResultVal"),
+                ResultType = dp.Get<string>("@ResultType"),
+                ResultMessage = dp.Get<string>("@ResultMessage")
+            };
+
+            var extraValue = dp.Get<string>($"@{extraOutputParamName}");
+
+            sw.Stop();
+            activity?.SetStatus(ActivityStatusCode.Ok);
+
+            LogStoredProcedureExecuted(logger, tenant, FormatSpExec(storedProcedure, parameters), sw.Elapsed.TotalMilliseconds, spResult.ResultVal, spResult.ResultType);
+
+            return (spResult, extraValue);
+        }
+        catch (Exception ex)
+        {
+            sw.Stop();
+            activity?.SetStatus(ActivityStatusCode.Error, ex.Message);
+
+            LogDatabaseError(logger, tenant, "StoredProcedure", FormatSpExec(storedProcedure, parameters), sw.Elapsed.TotalMilliseconds, ex);
+
+            throw;
+        }
+        finally
+        {
+            var tags = new TagList
+            {
+                { "db.operation", "stored_procedure" },
+                { "db.name", storedProcedure },
+                { "tenant", tenant }
+            };
+            DbQueryDuration.Record(sw.Elapsed.TotalMilliseconds, tags);
+            DbQueryCounter.Add(1, tags);
+        }
+    }
+
+    /// <inheritdoc />
     public async Task<T?> QuerySingleOrDefaultAsync<T>(
         string sql,
         object? parameters = null,
